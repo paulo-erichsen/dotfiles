@@ -1,0 +1,55 @@
+[pack]
+	threads = 4
+	windowMemory = 100m
+	packSizeLimit = 100m
+[gc]
+	agressiveWindow = 150
+	auto = 0
+[user]
+	name = Paulo Fagundes
+	email = paulohefagundes@gmail.com
+[color]
+	ui = true
+	diff = true
+[merge]
+	ff = false
+	tool = meld
+[svn]
+	pushmergeinfo = true
+[alias]
+	co = "!f() { git checkout $1 && git pull; git submodule update --init --recursive; }; f"
+	br = branch
+	ci = commit
+	st = status
+	df = diff
+	dc = diff --cached
+	lg = log -p
+	who = shortlog -s --
+	nb = !sh -c 'git checkout -b $1 && git push -u origin $1' -
+	db = !sh -c 'git branch -D $1 && git push --delete origin $1' -
+	unstage = reset HEAD --
+	last = log -1
+	visual = !gitk
+	tree = log --oneline --decorate --graph --all
+	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
+	# http://railsware.com/blog/2013/09/19/taming-the-git-daemon-to-quickly-share-git-repository/
+	serve = !git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
+	hub = !git daemon --base-path=. --export-all --enable=receive-pack --reuseaddr --informative-errors --verbose # share, allow push
+	# submodule aliases
+	sdiff = "!git diff && git submodule foreach 'git diff'"
+	spush = push --recurse-submodules=on-demand
+	supdate = submodule update --remote --merge
+[core]
+	editor = emacs -nw
+	excludesfile = /home/paulo/.gitignore_global
+	autocrlf = input
+[push]
+	default = simple
+[log]
+	date = local
+[pull]
+	rebase = true
+[git-up "bundler"]
+	check = true
+[status]
+	submodulesummary = 1

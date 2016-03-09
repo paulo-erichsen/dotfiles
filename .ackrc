@@ -1,0 +1,3 @@
+--type-set=pascal=.pas,.pp,.inc,.lpr,.dpr
+--color-lineno=bright_cyan
+--color-match=on_magenta
