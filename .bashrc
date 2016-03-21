@@ -137,26 +137,24 @@ export PATH="$PATH:$HOME/.rvm/bin:$HOME/.rbenv/bin"
 ################################################################################
 # backup config settings
 ################################################################################
-backup_config()
+backup_dotfiles()
 {
+    local dest=$HOME/git/dotfiles/
     local conf_files=(
         "$HOME/.ackrc"
         "$HOME/.bash_aliases"
         "$HOME/.bashrc"
-        "$HOME/.config/autokey/data/"
-        "$HOME/.dict"
-        "$HOME/.emacs.d"
+        "$HOME/.cgdb/"
+        "$HOME/.gdbinit"
         "$HOME/.gitconfig"
         "$HOME/.gitignore_global"
-        "$HOME/.ssh/config"
-        "$HOME/.gdbinit"
-        "$HOME/.cgdb/cgdbrc"
-        "$HOME/savetyping.sh"
     )
+
     for i in "${conf_files[@]}"
     do
         cp -r $i $HOME/Dropbox/utils/config_backup/
-        cp -r $i $HOME/git/config_backup/
+        cp -r $i $HOME/git/dotfiles/
     done
 }
-export -f backup_config
+export -f backup_dotfiles
+alias backup_config='backup_dotfiles'
