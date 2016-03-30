@@ -13,6 +13,7 @@ alias cleanupallthethings='echo "Cleaning Up" &&
 alias cleanup_all_the_things='cleanupallthethings'
 alias d='git diff -w'
 alias log='git log --name-status --date=local'
+alias sync_fork='git co master; git up; git fetch upstream --prune; git merge upstream/master && git submodule update --init'
 alias my_commits='git log --author="$(git config user.name)" --branches=* --decorate --oneline'
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'
 
