@@ -13,10 +13,6 @@ alias cleanupallthethings='echo "Cleaning Up" &&
 alias cleanup_all_the_things='cleanupallthethings'
 alias d='git diff -w'
 alias log='git log --name-status --date=local'
-alias sync_fork='git co master; git up; git fetch upstream --prune; git merge upstream/master && git submodule update --init'
 alias my_commits='git log --author="$(git config user.name)" --branches=* --decorate --oneline'
+# copy my backgrounds from dropbox for wallch
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'
-
-# virtual box module needs to be rebuilt when a new kernel is installed
-# alias fix_virtual_box='sudo /etc/init.d/vboxdrv setup'
-# alias fix_nvidia='sudo dpkg-reconfigure nvidia-331 && sudo dpkg-reconfigure nvidia-331-uvm' # to fix it when kernels are changed

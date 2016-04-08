@@ -39,6 +39,8 @@
 	sdiff = "!git diff && git submodule foreach 'git diff'"
 	spush = push --recurse-submodules=on-demand
 	supdate = submodule update --remote --merge
+	# sync your fork with upstream
+	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
 [core]
 	editor = emacs -nw
 	excludesfile = /home/paulo/.gitignore_global
