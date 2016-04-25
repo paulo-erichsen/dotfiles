@@ -17,6 +17,8 @@
 [svn]
 	pushmergeinfo = true
 [alias]
+	# does a `git up` on all ~/git/* repositories
+	u = "!f() { for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do cd $D; echo \">>> $(git remote -v | head -n1 | awk '{print $2}')\"; git up; git submodule update --init --recursive; echo; done; }; f"
 	co = "!f() { git checkout $1 && git pull; git submodule update --init --recursive; }; f"
 	br = branch
 	ci = commit
@@ -32,6 +34,7 @@
 	visual = !gitk
 	tree = log --oneline --decorate --graph --all
 	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
+	gone = !git branch -D $(git branch -vv | grep gone | awk '{print $1}') # deletes branches that are 'gone'
 	# http://railsware.com/blog/2013/09/19/taming-the-git-daemon-to-quickly-share-git-repository/
 	serve = !git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
 	hub = !git daemon --base-path=. --export-all --enable=receive-pack --reuseaddr --informative-errors --verbose # share, allow push
