@@ -80,9 +80,10 @@ fi
 export TERM=xterm-256color
 
 # use emacs
-export EDITOR='emacs -nw'
-export VISUAL='emacs -nw'
-export GIT_EDITOR='emacs -nw'
+export ALTERNATE_EDITOR='' # for emacs --daemon
+export EDITOR='emacsclient -nw'
+export VISUAL='emacsclient -nw'
+export GIT_EDITOR='emacsclient -nw'
 
 # setup PS1 with git
 export GIT_PS1_SHOWDIRTYSTATE=1
