@@ -23,5 +23,5 @@ alias my_commits='git log --author="$(git config user.name)" --branches=* --deco
 # copy my backgrounds from dropbox for wallch
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'
 alias open='xdg-open'
-alias ack='ack-grep --pascal --ruby'
-alias ag="ag --ruby --fpc --color-line-number='1;36' --color-match='45'" # --fpc depends on https://github.com/ggreer/the_silver_searcher/pull/889
+alias ack='echo you should be using \`ag\`'
+alias ag="ag --ruby --freepascal --path-to-agignore ~/.agignore --color-line-number='1;36' --color-match='45'" # --fpc depends on https://github.com/ggreer/the_silver_searcher/pull/889
