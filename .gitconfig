@@ -45,7 +45,7 @@
 	# sync your fork with upstream
 	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
 [core]
-	editor = emacs -nw
+	editor = emacsclient -nw
 	excludesfile = /home/paulo/.gitignore_global
 	autocrlf = input
 [push]
