@@ -18,7 +18,16 @@
 	pushmergeinfo = true
 [alias]
 	# does a `git up` on all ~/git/* repositories
-	u = "!f() { for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do cd $D; echo \">>> $(git remote -v | head -n1 | awk '{print $2}')\"; git up; git submodule update --init --recursive; echo; done; }; f"
+	u = "!f() { \
+		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
+		      cd $D; \
+		      echo \">>> $(git remote -v | head -n1 | awk '{print $2}')\"; \
+		      git up; \
+		      git submodule update --init --recursive; \
+		      [ $(git log --oneline origin/master..upstream/master 2>/dev/null | wc -l) = 0 ] || echo \"$(tput setaf 1)*** origin/master..upstream/master out of sync$(tput sgr0)\"; \
+		      echo; \
+		   done; \
+	     }; f"
 	co = "!f() { git checkout $1 && git pull; git submodule update --init --recursive; }; f"
 	br = branch
 	ci = commit
