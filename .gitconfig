@@ -21,8 +21,8 @@
 	u = "!f() { \
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
 		      cd $D; \
-		      echo \">>> $(git remote -v | head -n1 | awk '{print $2}')\"; \
-		      git up; \
+		      echo \"$(tput setaf 6) >>> $(git remote -v | head -n1 | awk '{print $2}')$(tput sgr0)\"; \
+		      git fetch --all --prune && git rebase --autostash FETCH_HEAD; \
 		      git submodule update --init --recursive; \
 		      [ $(git log --oneline origin/master..upstream/master 2>/dev/null | wc -l) = 0 ] || echo \"$(tput setaf 1)*** origin/master..upstream/master out of sync$(tput sgr0)\"; \
 		      echo; \
@@ -67,3 +67,5 @@
 	check = true
 [status]
 	submodulesummary = 1
+[rebase]
+	autoStash = true
