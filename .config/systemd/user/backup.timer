@@ -1,0 +1,6 @@
+[Unit]
+Description=Timer for backup jobs
+
+[Timer]
+OnCalendar=daily
+Unit=backup.target
