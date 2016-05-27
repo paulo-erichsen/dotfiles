@@ -28,7 +28,8 @@
 		      echo; \
 		   done; \
 	     }; f"
-	co = "!f() { git checkout $1 && git pull; git submodule update --init --recursive; }; f"
+	f = fetch --all --prune
+	co = "!f() { git checkout $1 && git pull --rebase; git submodule update --init --recursive; }; f"
 	br = branch
 	ci = commit
 	st = status
