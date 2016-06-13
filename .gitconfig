@@ -7,7 +7,7 @@
 	auto = 0
 [user]
 	name = Paulo Fagundes
-	email = paulohefagundes@gmail.com
+	useConfigOnly = true
 [color]
 	ui = true
 	diff = true
