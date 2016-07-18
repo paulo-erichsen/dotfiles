@@ -22,7 +22,7 @@
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
 		      cd $D; \
 		      echo \"$(tput setaf 6)>>> $(git remote -v | head -n1 | awk '{print $2}')$(tput sgr0)\"; \
-		      git fetch --all --prune && git rebase --autostash FETCH_HEAD; \
+		      git fetch --all --prune && git rebase --autostash; \
 		      git submodule update --init --recursive; \
 		      [ $(git log --oneline origin/master..upstream/master 2>/dev/null | wc -l) = 0 ] || echo \"$(tput setaf 1)*** origin/master..upstream/master out of sync$(tput sgr0)\"; \
 		      echo; \
@@ -44,7 +44,7 @@
 	visual = !gitk
 	tree = log --oneline --decorate --graph --all
 	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
-	gone = !git branch -D $(git branch -vv | grep gone | awk '{print $1}') # deletes branches that are 'gone'
+	gone = !(git branch -vv | grep ': gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep ': gone] ' | awk '{print $1}') # deletes branches that are 'gone'
 	# http://railsware.com/blog/2013/09/19/taming-the-git-daemon-to-quickly-share-git-repository/
 	serve = !git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
 	hub = !git daemon --base-path=. --export-all --enable=receive-pack --reuseaddr --informative-errors --verbose # share, allow push

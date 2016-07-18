@@ -25,3 +25,7 @@ alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo 
 alias open='xdg-open'
 alias ack='echo you should be using \`ag\`'
 alias ag="ag --ruby --freepascal --path-to-agignore ~/.agignore --color-line-number='1;36' --color-match='45'" # --fpc depends on https://github.com/ggreer/the_silver_searcher/pull/889
+
+# parse input into pretty strings
+alias json='python -mjson.tool' # echo '{"hello": { "world": "test1", "there": "test2" }}' | json
+alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' | xml
