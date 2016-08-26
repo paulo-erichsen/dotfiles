@@ -100,6 +100,7 @@ fi
 
 # Add RVM to PATH for scripting
 export PATH="$PATH:$HOME/.rvm/bin:$HOME/.rbenv/bin"
+export GOPATH="$HOME/go"
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
