@@ -51,6 +51,7 @@
 	# submodule aliases
 	sdiff = "!git diff && git submodule foreach 'git diff'"
 	spush = push --recurse-submodules=on-demand
+	su = submodule update --init
 	supdate = submodule update --remote --merge
 	# sync your fork with upstream
 	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
