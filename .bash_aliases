@@ -14,11 +14,6 @@ alias cleanupallthethings='echo "Cleaning Up" &&
       sudo apt-get -y clean'
 alias cleanup_all_the_things='cleanupallthethings'
 
-# git aliases
-alias d='git diff -w'
-alias log='git log --name-status --date=local'
-alias my_commits='git log --author="$(git config user.name)" --branches=* --decorate --oneline'
-
 # misc...
 # copy my backgrounds from dropbox for wallch
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'

@@ -1,23 +1,34 @@
-[pack]
-	threads = 4
-	windowMemory = 100m
-	packSizeLimit = 100m
-[gc]
-	agressiveWindow = 150
-	auto = 0
 [user]
 	name = Paulo Fagundes
 	useConfigOnly = true
-[color]
-	ui = true
-	diff = true
-[merge]
-	ff = false
-	tool = meld
-[svn]
-	pushmergeinfo = true
+
 [alias]
-	# does a `git up` on all ~/git/* repositories
+	# short aliases
+	br = branch
+	ci = commit
+	d = diff -w
+	ds = diff --staged # same as diff --cached
+	f = fetch --all --prune
+	st = status
+	unstage = reset HEAD --
+
+	# log
+	last = log -p -1
+	lg = log --oneline --format=format:'%C(bold blue)%h%C(reset) - %C(dim white)(%ar)%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
+	lt = log --oneline --decorate --graph --all
+	who = shortlog -s --
+
+	# branch management
+	co = "!f() { git checkout $1 && git pull --rebase; git submodule update --init --recursive; }; f"
+	nb = !sh -c 'git checkout -b $1 && git push -u origin $1' - # new branch
+	db = !sh -c 'git branch -D $1 && git push --delete origin $1' - # delete branch
+	gone = !(git branch -vv | grep ': gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep ': gone] ' | awk '{print $1}') # deletes branches that are 'gone'
+	# sync your fork with upstream
+	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
+	ours   = !"f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = !"f() { git checkout --theirs $@ && git add $@; }; f"
+
+	# does a `git pull --rebase` on all ~/git/* repositories
 	u = "!f() { \
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
 		      cd $D; \
@@ -28,46 +39,49 @@
 		      echo; \
 		   done; \
 	     }; f"
-	f = fetch --all --prune
-	co = "!f() { git checkout $1 && git pull --rebase; git submodule update --init --recursive; }; f"
-	br = branch
-	ci = commit
-	st = status
-	df = diff
-	dc = diff --cached
-	lg = log -p
-	who = shortlog -s --
-	nb = !sh -c 'git checkout -b $1 && git push -u origin $1' -
-	db = !sh -c 'git branch -D $1 && git push --delete origin $1' -
-	unstage = reset HEAD --
-	last = log -1
-	visual = !gitk
-	tree = log --oneline --decorate --graph --all
-	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
-	gone = !(git branch -vv | grep ': gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep ': gone] ' | awk '{print $1}') # deletes branches that are 'gone'
+
+	# daemon
 	# http://railsware.com/blog/2013/09/19/taming-the-git-daemon-to-quickly-share-git-repository/
 	serve = !git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
 	hub = !git daemon --base-path=. --export-all --enable=receive-pack --reuseaddr --informative-errors --verbose # share, allow push
+
 	# submodule aliases
 	sdiff = "!git diff && git submodule foreach 'git diff'"
 	spush = push --recurse-submodules=on-demand
-	su = submodule update --init
 	supdate = submodule update --remote --merge
-	# sync your fork with upstream
-	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
+	su = submodule update --init --recursive
+
+	# misc
+	ls-ignored = ls-files --exclude-standard --ignored --others
+	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
+	visual = !gitk
+
+[color]
+	ui = auto
+	diff = auto
 [core]
 	editor = emacsclient -nw
-	excludesfile = /home/paulo/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
-[push]
-	default = simple
+[gc]
+	agressiveWindow = 150
+	auto = 0
 [log]
 	date = local
+[merge]
+	ff = false
+	tool = meld
+[pack]
+	threads = 4
+	windowMemory = 100m
+	packSizeLimit = 100m
 [pull]
 	rebase = true
-[git-up "bundler"]
-	check = true
-[status]
-	submodulesummary = 1
+[push]
+	default = simple
 [rebase]
 	autoStash = true
+[status]
+	submodulesummary = 1
+[svn]
+	pushmergeinfo = true

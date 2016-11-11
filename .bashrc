@@ -91,7 +91,7 @@ export GIT_PS1_SHOWUPSTREAM=1
 export GIT_PS1_SHOWCOLORHINTS=1
 PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\w\[\033[00m\]" "\[\033[01;36m\]$\[\033[00m\] "'
 # Save and reload the history after each command finishes
-PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+# PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
 # load project related scripts
 if [ -f $HOME/savetyping.sh ]; then
