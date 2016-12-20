@@ -14,12 +14,15 @@ alias cleanupallthethings='echo "Cleaning Up" &&
       sudo apt-get -y clean'
 alias cleanup_all_the_things='cleanupallthethings'
 
+# git aliases
+alias d='git diff -w'
+
 # misc...
 # copy my backgrounds from dropbox for wallch
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'
 alias open='xdg-open'
 alias ack='echo you should be using \`ag\`'
-alias ag="ag --ruby --freepascal --path-to-agignore ~/.agignore --color-line-number='1;36' --color-match='45'" # --fpc depends on https://github.com/ggreer/the_silver_searcher/pull/889
+alias ag="ag --ruby --freepascal --path-to-agignore ~/.ignore --color-line-number='1;36' --color-match='45'" # --freepascal depends on https://github.com/ggreer/the_silver_searcher/pull/889
 alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
 
 # parse input into pretty strings

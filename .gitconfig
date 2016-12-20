@@ -23,8 +23,11 @@
 	nb = !sh -c 'git checkout -b $1 && git push -u origin $1' - # new branch
 	db = !sh -c 'git branch -D $1 && git push --delete origin $1' - # delete branch
 	gone = !(git branch -vv | grep ': gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep ': gone] ' | awk '{print $1}') # deletes branches that are 'gone'
+	# thx to http://stackoverflow.com/a/30998048/2261947
+	find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
+	show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
 	# sync your fork with upstream
-	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --init --recursive
+	sync = !git checkout master && git pull --rebase origin master && git pull --rebase --prune upstream master && git submodule update --recursive
 	ours   = !"f() { git checkout --ours $@ && git add $@; }; f"
 	theirs = !"f() { git checkout --theirs $@ && git add $@; }; f"
 
