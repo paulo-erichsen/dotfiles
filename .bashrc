@@ -99,11 +99,10 @@ if [ -f $HOME/savetyping.sh ]; then
     . $HOME/savetyping.sh
 fi
 
-# Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin:$HOME/.rbenv/bin"
+# Add rbenv to PATH for scripting
+export PATH="$HOME/.rbenv/bin:$PATH"
 export GOPATH="$HOME/go"
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+eval "$(rbenv init -)"
 
 ################################################################################
 # backup config settings
@@ -123,8 +122,6 @@ backup_dotfiles()
     for i in "${conf_files[@]}"
     do
         cp -r $i $HOME/Dropbox/utils/config_backup/
-        cp -r $i $HOME/git/dotfiles/
     done
 }
-export -f backup_dotfiles
 alias backup_config='backup_dotfiles'
