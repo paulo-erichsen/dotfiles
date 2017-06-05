@@ -13,7 +13,8 @@
 	unstage = reset HEAD --
 
 	# log
-	last = log -p -1
+	first = log --reverse -1 # rev-list --max-parents=0 HEAD # displays the very first commit from git log
+	last = log -p -1 # displays the most recent commit
 	lg = log --oneline --format=format:'%C(bold blue)%h%C(reset) - %C(dim white)(%ar)%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 	lt = log --oneline --decorate --graph --all
 	who = shortlog -s --
@@ -22,7 +23,7 @@
 	co = "!f() { git checkout $1 && git pull --rebase; git submodule update --init --recursive; }; f"
 	nb = !sh -c 'git checkout -b $1 && git push -u origin $1' - # new branch
 	db = !sh -c 'git branch -D $1 && git push --delete origin $1' - # delete branch
-	gone = !(git branch -vv | grep ': gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep ': gone] ' | awk '{print $1}') # deletes branches that are 'gone'
+	gone = !(git branch -vv | grep '^  .*: gone] ' 1> /dev/null) && git branch -D $(git branch -vv | grep '^  .*: gone] ' | awk '{print $1}') # deletes branches that are 'gone'
 	# thx to http://stackoverflow.com/a/30998048/2261947
 	find-merge = "!sh -c 'commit=$0 && branch=${1:-HEAD} && (git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 | uniq -f1 -d | sort -n | tail -1 | cut -f2'"
 	show-merge = "!sh -c 'merge=$(git find-merge $0 $1) && [ -n \"$merge\" ] && git show $merge'"
