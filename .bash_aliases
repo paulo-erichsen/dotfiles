@@ -28,3 +28,9 @@ alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
 # parse input into pretty strings
 alias json='python -mjson.tool' # echo '{"hello": { "world": "test1", "there": "test2" }}' | json
 alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' | xml
+
+# archlinux aliases
+alias backup='systemctl --user start backup.target'
+alias vpn='echo MAKE SURE TO RUN vpn_iptables_up TO SETUP THE FIREWALL; sudo openvpn --config ~/openvpn/US\ Seattle.ovpn --ca ~/openvpn/ca.rsa.2048.crt --crl-verify ~/openvpn/crl.rsa.2048.pem --auth-user-pass /etc/openvpn/client/login.conf'
+alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
+alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
