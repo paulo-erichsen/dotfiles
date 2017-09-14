@@ -1,7 +1,9 @@
 # Description: Boxstarter Script
 #      
 # Run this boxstarter by calling the following from an **elevated** powershell command-prompt:
-# 1) install boxstarter (if you haven't already done so)
+# Note that you may need to lift the execution policy restriction:
+#      Set-ExecutionPolicy Unrestricted -Force
+# 1) start/install boxstarter
 #      . { iwr -useb http://boxstarter.org/bootstrapper.ps1 } | iex; get-boxstarter -Force
 # 2) run boxstarter
 #      Install-BoxstarterPackage -PackageName <URL-TO-RAW-GIST>
@@ -40,7 +42,7 @@ choco install Microsoft-Hyper-V-All -source windowsFeatures
 choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal"' -y
 choco install poshgit
 # choco install git-credential-manager-for-windows
-choco install p4 p4v p4merge # no p4admin on chocolatey?
+# choco install p4v
 choco install windows-sdk-10
 choco install windowsdriverkit10
 choco install emacs64
