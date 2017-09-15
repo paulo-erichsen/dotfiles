@@ -36,7 +36,7 @@ Set-ItemProperty -Path HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization
 
 #--- Windows Subsystems/Features ---
 choco install Microsoft-Windows-Subsystem-Linux -source windowsfeatures
-choco install Microsoft-Hyper-V-All -source windowsFeatures
+# choco install Microsoft-Hyper-V-All -source windowsFeatures
 
 #--- Tools ---
 choco install git -params '"/GitAndUnixToolsOnPath /WindowsTerminal"' -y
