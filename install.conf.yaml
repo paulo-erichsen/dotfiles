@@ -1,0 +1,25 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.aliases: .aliases
+    ~/.bash_completion: .bash_completion
+    ~/.bash_profile: .bash_profile
+    ~/.bash_prompt: .bash_prompt
+    ~/.bashrc: .bashrc
+    ~/.cgdb: .cgdb
+    ~/.exports: .exports
+    # ~/.extra: .extra
+    # ~/.functions: .functions
+    ~/.gdbinit: .gdbinit
+    ~/.gitconfig: .gitconfig
+    ~/.gitignore_global: .gitignore_global
+    # ~/.path: .path
+    ~/.ssh/config: .ssh/config
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
