@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if [ -x /usr/bin/dircolors ] || ls --color > /dev/null 2>&1; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
@@ -41,7 +41,9 @@ alias d='git diff -w'
 # misc...
 # copy my backgrounds from dropbox for wallch
 alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo chmod -R +r /usr/share/backgrounds/'
-alias open='xdg-open'
+if [ ! -x /usr/bin/open ]; then
+   alias open='xdg-open'
+fi
 alias ack='echo you should be using \`ag\`'
 alias ag="ag --ruby --freepascal --path-to-agignore ~/.ignore --color-line-number='1;36' --color-match='45'" # --freepascal depends on https://github.com/ggreer/the_silver_searcher/pull/889
 alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'

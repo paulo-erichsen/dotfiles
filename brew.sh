@@ -1,6 +1,9 @@
+#!/usr/bin/env bash
+
 #
-# a lot of this was modified to my needs from
-# https://github.com/donnemartin/dev-setup/blob/master/brew.sh
+# a lot of this was modified to my needs from the following
+# - https://github.com/mathiasbynens/dotfiles/blob/master/brew.sh
+# - https://github.com/donnemartin/dev-setup/blob/master/brew.sh
 #
 
 # install homebrew
@@ -10,7 +13,7 @@ fi
 
 brew analytics off
 brew update
-brew upgrade --all
+brew upgrade
 
 # GNU and utilities
 brew install coreutils # Don't forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
@@ -20,16 +23,19 @@ brew install gnu-sed --with-default-names # overwrite the built-in `sed`
 brew install bash # bash4
 brew install bash-completion2
 # We installed the new shell, now we have to activate it
-echo "Adding the newly installed shell to the list of allowed shells"
-sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
-chsh -s /usr/local/bin/bash
-# Install more recent versions of some OS X tools.
+if ! grep -q '/usr/local/bin/bash' /etc/shells; then
+    echo "Adding the newly installed shell to the list of allowed shells"
+    sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
+    chsh -s /usr/local/bin/bash
+fi
+brew install wget --with-iri # Install `wget` with IRI support
+brew install gnupg # Install GnuPG to enable PGP-signing commits
+
+# Install more recent versions of some macOS tools.
 brew install vim --override-system-vi
-brew install homebrew/dupes/grep
-brew install homebrew/dupes/openssh
-brew install homebrew/dupes/screen
-brew install git
-brew install ripgrep
+brew install grep
+brew install openssh
+brew install screen
 
 # python
 brew install python
@@ -43,7 +49,14 @@ brew install rbenv
 LINE='eval "$(rbenv init -)"'
 grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
 
-# gui apps
+# Install other userful binaries.
+brew install git
+brew install ripgrep
+brew install lua
+brew install ssh-copy-id
+brew install tree
+
+# Install GUI apps
 brew cask install firefox # you could choose google-chrome or something else
 brew cask install iterm2
 brew cask install p4v # perforce
@@ -53,8 +66,7 @@ brew cask install virtualbox
 # emacs
 # remove the old OS X default emacs (requires disabling system integrity)
 sudo rm /usr/bin/emacs*
-sudo rm -rf /usr/share/emacs
-
+sudo rm -rf /usr/share/emacs/
 brew install emacs # if you'd like the GUI, install `brew cask install emacs` instead. I prefer the command-line though
 
 # emacs key setup
@@ -62,3 +74,6 @@ brew install emacs # if you'd like the GUI, install `brew cask install emacs` in
 # iterm2: Preferences > Profiles > Keys > choose Left Option Key acts as: +Esc
 # iterm2: Preferences > Profiles > Keys >  Load Preset: Natural Text Editing
 # terminal: Preferences > Profiles > Keyboard > Use Option as Meta Key
+
+# Remove outdated versions from the cellar
+brew cleanup
