@@ -14,7 +14,7 @@
     ~/.cgdb: .cgdb
     ~/.exports: .exports
     # ~/.extra: .extra
-    # ~/.functions: .functions
+    ~/.functions: .functions
     ~/.gdbinit: .gdbinit
     ~/.gitconfig: .gitconfig
     ~/.gitignore_global: .gitignore_global
