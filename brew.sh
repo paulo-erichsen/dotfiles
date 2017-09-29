@@ -48,6 +48,7 @@ brew install ruby-build
 brew install rbenv
 LINE='eval "$(rbenv init -)"'
 grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
+# don't forget to later actually install ruby through rbenv
 
 # Install other userful binaries.
 brew install git
@@ -57,14 +58,21 @@ brew install ssh-copy-id
 brew install tree
 
 # Install GUI apps
-brew cask install firefox # you could choose google-chrome or something else
+brew cask install firefox
+brew cask install google-chrome
 brew cask install iterm2
-brew cask install p4v # perforce
+brew cask install p4v           # perforce - helix visual client
+brew cask install packages      # allows .pkgproj (installer) files to be created and managed
+brew cask install zoom          # zoom video conferencing
+brew cask install hipchat       # collaboration tool similar to slack
+brew cask install keepassxc
 brew cask install dropbox
 brew cask install virtualbox
+brew cask install vmware-fusion
 
 # emacs
-# remove the old OS X default emacs (requires disabling system integrity)
+# remove the outdated default emacs from macOS (requires disabling system integrity)
+# TODO: add if...then case for these. Don't try to `sudo rm` when it's already gone
 sudo rm /usr/bin/emacs*
 sudo rm -rf /usr/share/emacs/
 brew install emacs # if you'd like the GUI, install `brew cask install emacs` instead. I prefer the command-line though

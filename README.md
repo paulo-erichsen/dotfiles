@@ -38,7 +38,7 @@ TODO: add shell script for installing stuff (pacman / apt)
 #### install Homebrew formulae
 
 ``` bash
-brew.sh # TODO: add this script to the repo and add some description
+brew.sh # installs homebrew and many programs that I normally use
 ```
 
 ### windows
