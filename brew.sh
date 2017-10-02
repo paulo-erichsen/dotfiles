@@ -63,7 +63,7 @@ brew cask install google-chrome
 brew cask install iterm2
 brew cask install p4v           # perforce - helix visual client
 brew cask install packages      # allows .pkgproj (installer) files to be created and managed
-brew cask install zoom          # zoom video conferencing
+brew cask install zoomus        # zoom video conferencing
 brew cask install hipchat       # collaboration tool similar to slack
 brew cask install keepassxc
 brew cask install dropbox
