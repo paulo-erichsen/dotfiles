@@ -56,6 +56,9 @@ brew install ripgrep
 brew install lua
 brew install ssh-copy-id
 brew install tree
+brew install unrar
+brew install openconnect # this replaces cisco anyconnect vpn - see https://gist.github.com/moklett/3170636
+# make sure to add to /etc/sudoers the following: %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
 
 # Install GUI apps
 brew cask install firefox
