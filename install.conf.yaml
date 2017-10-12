@@ -18,8 +18,9 @@
     ~/.gdbinit: .gdbinit
     ~/.gitconfig: .gitconfig
     ~/.gitignore_global: .gitignore_global
-    # ~/.path: .path
+    ~/.path: .path
     ~/.ssh/config: .ssh/config
+    ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
