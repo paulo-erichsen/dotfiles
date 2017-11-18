@@ -54,9 +54,10 @@ alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' 
 # archlinux aliases
 alias backup='systemctl --user start backup.target'
 if [ -x /usr/bin/openvpn ]; then
-    alias vpn='echo MAKE SURE TO RUN vpn_iptables_up TO SETUP THE FIREWALL; sudo openvpn --config ~/openvpn/US\ Seattle.ovpn --ca ~/openvpn/ca.rsa.2048.crt --crl-verify ~/openvpn/crl.rsa.2048.pem --auth-user-pass /etc/openvpn/client/login.conf'
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
+    alias vpn_strong='sudo openvpn --config ~/openvpn-strong/US\ Seattle.ovpn --ca ~/openvpn-strong/ca.rsa.4096.crt --crl-verify ~/openvpn-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/login.conf'
+    alias vpn='vpn_iptables_up; vpn_strong'
 elif [ -x /usr/local/bin/openconnect ]; then
     alias vpn='sudo openconnect -user=paulo.fagundes americas.vpn.websense.com'
 fi

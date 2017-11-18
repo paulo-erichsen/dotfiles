@@ -29,7 +29,7 @@
 -A OUTPUT -o tun+ -j ACCEPT -m comment --comment "allow output on the tunnel interface"
 -A OUTPUT -d 209.222.18.222/32 -j ACCEPT -m comment --comment "PIA VPN DNS1"
 -A OUTPUT -d 209.222.18.218/32 -j ACCEPT -m comment --comment "PIA VPN DNS2"
--A OUTPUT -p udp -m udp --dport 1198 -j ACCEPT -m comment --comment "PIA uses UDP on port 1198"
+-A OUTPUT -p udp -m udp --dport 1197 -j ACCEPT -m comment --comment "PIA uses UDP on ports 1197/1198 depending on encryption/auth"
 
 # reject everything else
 -A OUTPUT -j REJECT --reject-with icmp-net-unreachable
