@@ -12,6 +12,8 @@
     ~/.bash_prompt: .bash_prompt
     ~/.bashrc: .bashrc
     ~/.cgdb: .cgdb
+    ~/.clang-format: .clang-format
+    ~/.clang-tidy: .clang-tidy
     ~/.exports: .exports
     # ~/.extra: .extra
     ~/.functions: .functions
