@@ -1,3 +1,4 @@
 if [ -x /usr/local/bin/brew ]; then
-    export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/sbin:$PATH";
+    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" # brew install coreutils
+    export PATH="/usr/local/opt/llvm/bin:$PATH"                 # brew inscall llvm -> clang-tidy
 fi

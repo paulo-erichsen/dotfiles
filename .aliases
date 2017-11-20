@@ -51,6 +51,10 @@ alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
 alias json='python -mjson.tool' # echo '{"hello": { "world": "test1", "there": "test2" }}' | json
 alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' | xml
 
+# dev aliases
+alias clang-format='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
+alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https://github.com/BurntSushi/ripgrep
+
 # archlinux aliases
 alias backup='systemctl --user start backup.target'
 if [ -x /usr/bin/openvpn ]; then

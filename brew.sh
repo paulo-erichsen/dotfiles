@@ -34,7 +34,7 @@ brew install gnupg # Install GnuPG to enable PGP-signing commits
 # Install more recent versions of some macOS tools.
 brew install vim --override-system-vi
 brew install grep
-brew install openssh
+# brew install openssh # this conflicts with macOS' version of openssh and the ssh option 'UseKeychain=yes' -> `brew unlink openssh` if installed
 brew install screen
 
 # python
@@ -51,6 +51,8 @@ grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
 # don't forget to later actually install ruby through rbenv
 
 # Install other userful binaries.
+brew install aspell # emacs - M-$ to check spelling
+brew install llvm # contains clang-format and clang-tidy
 brew install git
 brew install ripgrep
 brew install lua
@@ -61,17 +63,20 @@ brew install openconnect # this replaces cisco anyconnect vpn - see https://gist
 # make sure to add to /etc/sudoers the following: %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
 
 # Install GUI apps
+brew tap buo/cask-upgrade # `brew cu` -> extension to upgrade cask installations - https://github.com/buo/homebrew-cask-upgrade
 brew cask install firefox
 brew cask install google-chrome
 brew cask install iterm2
-brew cask install p4v           # perforce - helix visual client
-brew cask install packages      # allows .pkgproj (installer) files to be created and managed
-brew cask install zoomus        # zoom video conferencing
-brew cask install hipchat       # collaboration tool similar to slack
+brew cask install p4v             # perforce - helix visual client
+brew cask install packages        # allows .pkgproj (installer) files to be created and managed
+brew cask install zoomus          # zoom video conferencing
+brew cask install hipchat         # collaboration tool similar to slack
+brew cask install microsoft-teams # collaboration tool similar to slack
 brew cask install keepassxc
 brew cask install dropbox
 brew cask install virtualbox
 brew cask install vmware-fusion
+brew cask install wireshark
 
 # emacs
 # remove the outdated default emacs from macOS (requires disabling system integrity)
