@@ -1,0 +1,13 @@
+# 
+# /etc/fstab: static file system information
+#
+# use `blkid` to display disks and labels, `fdisk -l` for more
+#
+# <file system>	<dir>	<type>	<options>	<dump>	<pass>
+LABEL="linux"   /       ext4    rw,relatime,data=ordered 0 1
+LABEL="swap"    none   swap            defaults        0 0
+LABEL="data"    /mnt/data  ntfs-3g     defaults        0 2
+LABEL="windows" /mnt/windows ntfs            defaults,noauto 0 2
+LABEL="games"   /mnt/games   ntfs           defaults,noauto 0 2
+//10.10.1.2/Download  /mnt/download  cifs  credentials=/home/paulo/.nascredentials,uid=paulo,x-systemd.automount 0 0
+//10.10.1.2/Multimedia/videos /mnt/videos  cifs  credentials=/home/paulo/.nascredentials,uid=paulo,noauto,ro 0 2
