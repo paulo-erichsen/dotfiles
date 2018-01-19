@@ -52,6 +52,7 @@ grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
 
 # Install other userful binaries.
 brew install aspell # emacs - M-$ to check spelling
+brew install cmake
 brew install llvm # contains clang-format and clang-tidy
 brew install git
 brew install ripgrep
@@ -61,6 +62,9 @@ brew install tree
 brew install unrar
 brew install openconnect # this replaces cisco anyconnect vpn - see https://gist.github.com/moklett/3170636
 # make sure to add to /etc/sudoers the following: %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
+brew cask install xquartz && brew install freerdp # provides xfreerdp - rdp client
+brew install graphviz # provides dot - generate graphs that can be used for documentation
+brew install doxygen # documentation generation tool - example: https://github.com/FreeRDP/FreeRDP/wiki/Doxygen
 
 # Install GUI apps
 brew tap buo/cask-upgrade # `brew cu` -> extension to upgrade cask installations - https://github.com/buo/homebrew-cask-upgrade
@@ -70,7 +74,6 @@ brew cask install iterm2
 brew cask install p4v             # perforce - helix visual client
 brew cask install packages        # allows .pkgproj (installer) files to be created and managed
 brew cask install zoomus          # zoom video conferencing
-brew cask install hipchat         # collaboration tool similar to slack
 brew cask install microsoft-teams # collaboration tool similar to slack
 brew cask install keepassxc
 brew cask install dropbox
