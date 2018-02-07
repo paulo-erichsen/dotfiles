@@ -7,5 +7,6 @@ if [ -x /usr/bin/xcode-select ]; then
         else
             sudo xcode-select --switch /Applications/Xcode.app
         fi
+        xcode-select -p
     }
 fi
