@@ -17,6 +17,7 @@ brew upgrade
 
 # GNU and utilities
 brew install coreutils # Don't forget to add `$(brew --prefix coreutils)/libexec/gnubin` to `$PATH`.
+brew install tnftp # BSD ftp - alternative is GNU ftp `brew install inetutils`
 brew install moreutils
 brew install findutils  # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install gnu-sed --with-default-names # overwrite the built-in `sed`
