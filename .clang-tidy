@@ -5,6 +5,18 @@ HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
 FormatStyle:     file
 CheckOptions:
+  - key:             bugprone-argument-comment.StrictMode
+    value:           '0'
+  - key:             bugprone-assert-side-effect.AssertMacros
+    value:           assert
+  - key:             bugprone-assert-side-effect.CheckFunctionCalls
+    value:           '0'
+  - key:             bugprone-dangling-handle.HandleClasses
+    value:           'std::basic_string_view;std::experimental::basic_string_view'
+  - key:             bugprone-string-constructor.LargeLengthThreshold
+    value:           '8388608'
+  - key:             bugprone-string-constructor.WarnOnLargeLength
+    value:           '1'
   - key:             cert-dcl59-cpp.HeaderFileExtensions
     value:           h,hh,hpp,hxx
   - key:             cert-err09-cpp.CheckThrowTemporaries
@@ -19,6 +31,10 @@ CheckOptions:
     value:           '::free'
   - key:             cppcoreguidelines-no-malloc.Reallocations
     value:           '::realloc'
+  - key:             cppcoreguidelines-owning-memory.LegacyResourceConsumers
+    value:           '::free;::realloc;::freopen;::fclose'
+  - key:             cppcoreguidelines-owning-memory.LegacyResourceProducers
+    value:           '::malloc;::aligned_alloc;::realloc;::calloc;::fopen;::freopen;::tmpfile'
   - key:             cppcoreguidelines-pro-bounds-constant-array-index.GslHeader
     value:           ''
   - key:             cppcoreguidelines-pro-bounds-constant-array-index.IncludeStyle
@@ -57,6 +73,8 @@ CheckOptions:
     value:           uint
   - key:             google-runtime-references.WhiteListTypes
     value:           ''
+  - key:             hicpp-braces-around-statements.ShortStatementLines
+    value:           '0'
   - key:             hicpp-function-size.BranchThreshold
     value:           '4294967295'
   - key:             hicpp-function-size.LineThreshold
@@ -69,43 +87,53 @@ CheckOptions:
     value:           '800'
   - key:             hicpp-member-init.IgnoreArrays
     value:           '0'
+  - key:             hicpp-move-const-arg.CheckTriviallyCopyableMove
+    value:           '1'
   - key:             hicpp-named-parameter.IgnoreFailedSplit
     value:           '0'
+  - key:             hicpp-no-malloc.Allocations
+    value:           '::malloc;::calloc'
+  - key:             hicpp-no-malloc.Deallocations
+    value:           '::free'
+  - key:             hicpp-no-malloc.Reallocations
+    value:           '::realloc'
   - key:             hicpp-special-member-functions.AllowMissingMoveFunctions
     value:           '0'
   - key:             hicpp-special-member-functions.AllowSoleDefaultDtor
     value:           '0'
-  - key:             llvm-header-guard.HeaderFileExtensions
-    value:           ',h,hh,hpp,hxx'
+  - key:             hicpp-use-auto.RemoveStars
+    value:           '0'
+  - key:             hicpp-use-emplace.ContainersWithPushBack
+    value:           '::std::vector;::std::list;::std::deque'
+  - key:             hicpp-use-emplace.SmartPointers
+    value:           '::std::shared_ptr;::std::unique_ptr;::std::auto_ptr;::std::weak_ptr'
+  - key:             hicpp-use-emplace.TupleMakeFunctions
+    value:           '::std::make_pair;::std::make_tuple'
+  - key:             hicpp-use-emplace.TupleTypes
+    value:           '::std::pair;::std::tuple'
+  - key:             hicpp-use-equals-default.IgnoreMacros
+    value:           '1'
+  - key:             hicpp-use-noexcept.ReplacementString
+    value:           ''
+  - key:             hicpp-use-noexcept.UseNoexceptFalse
+    value:           '1'
+  - key:             hicpp-use-nullptr.NullMacros
+    value:           ''
   - key:             llvm-namespace-comment.ShortNamespaceLines
     value:           '1'
   - key:             llvm-namespace-comment.SpacesBeforeComments
     value:           '1'
-  - key:             misc-argument-comment.StrictMode
-    value:           '0'
-  - key:             misc-assert-side-effect.AssertMacros
-    value:           assert
-  - key:             misc-assert-side-effect.CheckFunctionCalls
-    value:           '0'
-  - key:             misc-dangling-handle.HandleClasses
-    value:           'std::basic_string_view;std::experimental::basic_string_view'
   - key:             misc-definitions-in-headers.HeaderFileExtensions
     value:           ',h,hh,hpp,hxx'
   - key:             misc-definitions-in-headers.UseHeaderFileExtension
     value:           '1'
   - key:             misc-misplaced-widening-cast.CheckImplicitCasts
     value:           '0'
-  - key:             misc-move-constructor-init.IncludeStyle
-    value:           llvm
   - key:             misc-sizeof-expression.WarnOnSizeOfCompareToConstant
     value:           '1'
   - key:             misc-sizeof-expression.WarnOnSizeOfConstant
     value:           '1'
   - key:             misc-sizeof-expression.WarnOnSizeOfThis
-    value:           '1'
-  - key:             misc-string-constructor.LargeLengthThreshold
-    value:           '8388608'
-  - key:             misc-string-constructor.WarnOnLargeLength
     value:           '1'
   - key:             misc-suspicious-enum-usage.StrictMode
     value:           '0'
@@ -129,12 +157,16 @@ CheckOptions:
     value:           reasonable
   - key:             modernize-loop-convert.NamingStyle
     value:           CamelCase
+  - key:             modernize-make-shared.IgnoreMacros
+    value:           '1'
   - key:             modernize-make-shared.IncludeStyle
     value:           '0'
   - key:             modernize-make-shared.MakeSmartPtrFunction
     value:           'std::make_shared'
   - key:             modernize-make-shared.MakeSmartPtrFunctionHeader
     value:           memory
+  - key:             modernize-make-unique.IgnoreMacros
+    value:           '1'
   - key:             modernize-make-unique.IncludeStyle
     value:           '0'
   - key:             modernize-make-unique.MakeSmartPtrFunction
@@ -165,6 +197,8 @@ CheckOptions:
     value:           '::std::make_pair;::std::make_tuple'
   - key:             modernize-use-emplace.TupleTypes
     value:           '::std::pair;::std::tuple'
+  - key:             modernize-use-equals-default.IgnoreMacros
+    value:           '1'
   - key:             modernize-use-noexcept.ReplacementString
     value:           ''
   - key:             modernize-use-noexcept.UseNoexceptFalse
@@ -175,6 +209,10 @@ CheckOptions:
     value:           '0'
   - key:             modernize-use-using.IgnoreMacros
     value:           '1'
+  - key:             objc-forbidden-subclassing.ForbiddenSuperClassNames
+    value:           'ABNewPersonViewController;ABPeoplePickerNavigationController;ABPersonViewController;ABUnknownPersonViewController;NSHashTable;NSMapTable;NSPointerArray;NSPointerFunctions;NSTimer;UIActionSheet;UIAlertView;UIImagePickerController;UITextInputMode;UIWebView'
+  - key:             objc-property-declaration.Acronyms
+    value:           'ASCII;PDF;XML;HTML;URL;RTF;HTTP;TIFF;JPG;PNG;GIF;LZW;ROM;RGB;CMYK;MIDI;FTP'
   - key:             performance-faster-string-find.StringLikeClasses
     value:           'std::basic_string'
   - key:             performance-for-range-copy.WarnOnAllAutoCopies
@@ -183,6 +221,10 @@ CheckOptions:
     value:           '0'
   - key:             performance-inefficient-vector-operation.VectorLikeClasses
     value:           '::std::vector'
+  - key:             performance-move-const-arg.CheckTriviallyCopyableMove
+    value:           '1'
+  - key:             performance-move-constructor-init.IncludeStyle
+    value:           llvm
   - key:             performance-type-promotion-in-math-fn.IncludeStyle
     value:           llvm
   - key:             performance-unnecessary-value-param.IncludeStyle
@@ -199,32 +241,112 @@ CheckOptions:
     value:           '4294967295'
   - key:             readability-function-size.StatementThreshold
     value:           '800'
+  - key:             readability-identifier-naming.ClassCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.ClassMemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ClassMemberPrefix
+    value:           ''
+  - key:             readability-identifier-naming.ClassMemberSuffix
+    value:           ''
+  - key:             readability-identifier-naming.ClassPrefix
+    value:           ''
+  - key:             readability-identifier-naming.ClassSuffix
+    value:           ''
+  - key:             readability-identifier-naming.ConstantCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ConstantPrefix
+    value:           ''
+  - key:             readability-identifier-naming.ConstantSuffix
+    value:           ''
+  - key:             readability-identifier-naming.EnumConstantCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.EnumConstantPrefix
+    value:           ''
+  - key:             readability-identifier-naming.EnumConstantSuffix
+    value:           ''
+  - key:             readability-identifier-naming.FunctionCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.FunctionPrefix
+    value:           ''
+  - key:             readability-identifier-naming.FunctionSuffix
+    value:           ''
+  - key:             readability-identifier-naming.GlobalConstantCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.GlobalConstantPrefix
+    value:           ''
+  - key:             readability-identifier-naming.GlobalConstantSuffix
+    value:           ''
   - key:             readability-identifier-naming.IgnoreFailedSplit
     value:           '0'
-  - key:             readability-implicit-bool-cast.AllowConditionalIntegerCasts
+  - key:             readability-identifier-naming.MacroDefinitionCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.MacroDefinitionPrefix
+    value:           ''
+  - key:             readability-identifier-naming.MacroDefinitionSuffix
+    value:           ''
+  - key:             readability-identifier-naming.MemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.MemberPrefix
+    value:           ''
+  - key:             readability-identifier-naming.MemberSuffix
+    value:           ''
+  - key:             readability-identifier-naming.NamespaceCase
+    value:           lower_case
+  - key:             readability-identifier-naming.NamespacePrefix
+    value:           ''
+  - key:             readability-identifier-naming.NamespaceSuffix
+    value:           ''
+  - key:             readability-identifier-naming.ParameterCase
+    value:           lower_case
+  - key:             readability-identifier-naming.ParameterPrefix
+    value:           ''
+  - key:             readability-identifier-naming.ParameterSuffix
+    value:           ''
+  - key:             readability-identifier-naming.PrivateMemberPrefix
+    value:           m_
+  - key:             readability-identifier-naming.PrivateMemberSuffix
+    value:           ''
+  - key:             readability-identifier-naming.ProtectedMemberPrefix
+    value:           m_
+  - key:             readability-identifier-naming.PublicMemberCase
+    value:           lower_case
+  - key:             readability-identifier-naming.PublicMemberPrefix
+    value:           ''
+  - key:             readability-identifier-naming.PublicMemberSuffix
+    value:           ''
+  - key:             readability-identifier-naming.StaticConstantCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.StaticConstantPrefix
+    value:           ''
+  - key:             readability-identifier-naming.StaticConstantSuffix
+    value:           ''
+  - key:             readability-identifier-naming.StructCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.StructPrefix
+    value:           ''
+  - key:             readability-identifier-naming.StructSuffix
+    value:           ''
+  - key:             readability-identifier-naming.TemplateParameterCase
+    value:           CamelCase
+  - key:             readability-identifier-naming.TemplateParameterPrefix
+    value:           ''
+  - key:             readability-identifier-naming.TemplateParameterSuffix
+    value:           ''
+  - key:             readability-identifier-naming.VariableCase
+    value:           lower_case
+  - key:             readability-identifier-naming.VariablePrefix
+    value:           ''
+  - key:             readability-identifier-naming.VariableSuffix
+    value:           ''
+  - key:             readability-implicit-bool-conversion.AllowIntegerConditions
     value:           '0'
-  - key:             readability-implicit-bool-cast.AllowConditionalPointerCasts
+  - key:             readability-implicit-bool-conversion.AllowPointerConditions
     value:           '0'
   - key:             readability-simplify-boolean-expr.ChainedConditionalAssignment
     value:           '0'
   - key:             readability-simplify-boolean-expr.ChainedConditionalReturn
     value:           '0'
-  - { key: readability-identifier-naming.ClassCase,              value: CamelCase  }
-  - { key: readability-identifier-naming.ClassMemberCase,        value: lower_case }
-  - { key: readability-identifier-naming.ConstantCase,           value: lower_case }
-  - { key: readability-identifier-naming.EnumConstantCase,       value: UPPER_CASE }
-  - { key: readability-identifier-naming.FunctionCase,           value: CamelCase  }
-  - { key: readability-identifier-naming.GlobalConstantCase,     value: UPPER_CASE }
-  - { key: readability-identifier-naming.MacroDefinitionCase,    value: UPPER_CASE }
-  - { key: readability-identifier-naming.MemberCase,             value: lower_case }
-  - { key: readability-identifier-naming.NamespaceCase,          value: lower_case }
-  - { key: readability-identifier-naming.ParameterCase,          value: lower_case }
-  - { key: readability-identifier-naming.PrivateMemberPrefix,    value: m_         }
-  - { key: readability-identifier-naming.ProtectedeMemberPrefix, value: m_         }
-  - { key: readability-identifier-naming.PublicMemberCase,       value: lower_case }
-  - { key: readability-identifier-naming.StaticConstantCase,     value: UPPER_CASE }
-  - { key: readability-identifier-naming.StructCase,             value: CamelCase  }
-  - { key: readability-identifier-naming.TemplateParameter,      value: CamelCase  }
-  - { key: readability-identifier-naming.TemplateParameterCase,  value: CamelCase  }
-  - { key: readability-identifier-naming.VariableCase,           value: lower_case }
+  - key:             readability-static-accessed-through-instance.NameSpecifierNestingThreshold
+    value:           '3'
 ...
