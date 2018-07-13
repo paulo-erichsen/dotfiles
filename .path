@@ -2,3 +2,8 @@ if [ -x /usr/local/bin/brew ]; then
     export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" # brew install coreutils
     export PATH="/usr/local/opt/llvm/bin:$PATH"                 # brew inscall llvm -> clang-tidy
 fi
+
+# MacTex - pdflatex
+if [ -d /usr/local/texlive/2018/bin/x86_64-darwin/ ]; then
+    export PATH="$PATH:/usr/local/texlive/2018/bin/x86_64-darwin/"
+fi

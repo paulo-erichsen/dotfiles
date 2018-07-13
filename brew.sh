@@ -7,7 +7,7 @@
 #
 
 # install homebrew
-if test ! $(which brew); then
+if test ! "$(which brew)"; then
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 
@@ -21,6 +21,9 @@ brew install tnftp # BSD ftp - alternative is GNU ftp `brew install inetutils`
 brew install moreutils
 brew install findutils  # Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
 brew install gnu-sed --with-default-names # overwrite the built-in `sed`
+brew install htop
+brew install pstree
+brew install watch
 brew install bash # bash4
 brew install bash-completion2
 # We installed the new shell, now we have to activate it
@@ -33,7 +36,7 @@ brew install wget --with-iri # Install `wget` with IRI support
 brew install gnupg # Install GnuPG to enable PGP-signing commits
 
 # Install more recent versions of some macOS tools.
-brew install vim --override-system-vi
+# brew install vim --override-system-vi
 brew install grep
 # brew install openssh # this conflicts with macOS' version of openssh and the ssh option 'UseKeychain=yes' -> `brew unlink openssh` if installed
 brew install screen
@@ -55,9 +58,10 @@ grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
 brew install aspell # emacs - M-$ to check spelling
 brew install cmake
 brew install llvm # contains clang-format and clang-tidy
+brew install shellcheck # static analysis tool for shell scripts
 brew install git
-brew install ripgrep
-brew install lua
+brew install ripgrep # provides rg - WAY faster than grep - https://github.com/BurntSushi/ripgrep
+# brew install lua
 brew install ssh-copy-id
 brew install tree
 brew install unrar
@@ -78,9 +82,10 @@ brew cask install zoomus          # zoom video conferencing
 brew cask install microsoft-teams # collaboration tool similar to slack
 brew cask install keepassxc
 brew cask install dropbox
-brew cask install virtualbox
+# brew cask install virtualbox
 brew cask install vmware-fusion
 brew cask install wireshark
+brew cask install mactex         # latex
 
 # emacs
 # remove the outdated default emacs from macOS (requires disabling system integrity)
