@@ -1,3 +1,6 @@
+# Add `~/bin` and `~/.local/bin` to the `$PATH`
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH";
+
 if [ -x /usr/local/bin/brew ]; then
     export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" # brew install coreutils
     export PATH="/usr/local/opt/llvm/bin:$PATH"                 # brew inscall llvm -> clang-tidy
