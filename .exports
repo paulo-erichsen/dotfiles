@@ -27,3 +27,10 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 # export GEM_HOME=$(ruby -e 'print Gem.user_dir')
 
 # export GOPATH="$HOME/go"
+
+# python virtualenv
+if [ -d "$HOME/.virtualenvs" ] && [ -f "$HOME/.local/bin/virtualenvwrapper.sh" ]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    export PROJECT_HOME=$HOME/git/
+    source "$HOME/.local/bin/virtualenvwrapper.sh"
+fi

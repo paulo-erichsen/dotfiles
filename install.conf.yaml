@@ -21,6 +21,7 @@
     ~/.gitconfig: .gitconfig
     ~/.gitignore_global: .gitignore_global
     ~/.path: .path
+    ~/bin/backup.sh: bin/backup.sh
     ~/.ssh/config: .ssh/config
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
 
