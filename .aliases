@@ -52,7 +52,7 @@ alias json='python -mjson.tool' # echo '{"hello": { "world": "test1", "there": "
 alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' | xml
 
 # dev aliases
-alias clang-format='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
+alias clang-format-all='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
 alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https://github.com/BurntSushi/ripgrep
 
 # archlinux aliases
@@ -63,5 +63,5 @@ if [ -x /usr/bin/openvpn ]; then
     alias vpn_strong='sudo openvpn --config ~/openvpn-strong/US\ Seattle.ovpn --ca ~/openvpn-strong/ca.rsa.4096.crt --crl-verify ~/openvpn-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/login.conf'
     alias vpn='vpn_iptables_up; vpn_strong'
 elif [ -x /usr/local/bin/openconnect ]; then
-    alias vpn='sudo openconnect --user=paulo.fagundes americas.vpn.websense.com'
+    alias vpn='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1; sudo openconnect --user=paulo.fagundes americas.vpn.websense.com; networksetup -setdnsservers ethernet empty'
 fi
