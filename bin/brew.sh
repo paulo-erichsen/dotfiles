@@ -36,6 +36,7 @@ brew install wget --with-iri # Install `wget` with IRI support
 brew install gnupg # Install GnuPG to enable PGP-signing commits
 
 # Install more recent versions of some macOS tools.
+brew install emacs # if you'd like the GUI, install `brew cask install emacs` instead. I prefer the command-line though
 # brew install vim --override-system-vi
 brew install grep
 # brew install openssh # this conflicts with macOS' version of openssh and the ssh option 'UseKeychain=yes' -> `brew unlink openssh` if installed
@@ -44,14 +45,14 @@ brew install screen
 # python
 brew install python
 brew install python3
-pip3 install --upgrade pip setuptools wheel
+# python3 -m pip install --user --upgrade pip setuptools wheel
 
 # ruby
 # Install ruby-build and rbenv
-brew install ruby-build
-brew install rbenv
-LINE='eval "$(rbenv init -)"'
-grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
+# brew install ruby-build
+# brew install rbenv
+# LINE='eval "$(rbenv init -)"'
+# grep -q "$LINE" ~/.extra || echo "$LINE" >> ~/.extra
 # don't forget to later actually install ruby through rbenv
 
 # Install other userful binaries.
@@ -67,7 +68,7 @@ brew install tree
 brew install unrar
 brew install openconnect # this replaces cisco anyconnect vpn - see https://gist.github.com/moklett/3170636
 # make sure to add to /etc/sudoers the following: %admin  ALL=(ALL) NOPASSWD: /usr/local/bin/openconnect
-brew cask install xquartz && brew install freerdp # provides xfreerdp - rdp client
+# brew cask install xquartz && brew install freerdp # provides xfreerdp - rdp client
 brew install graphviz # provides dot - generate graphs that can be used for documentation
 brew install doxygen # documentation generation tool - example: https://github.com/FreeRDP/FreeRDP/wiki/Doxygen
 
@@ -87,15 +88,15 @@ brew cask install vmware-fusion
 brew cask install wireshark
 brew cask install mactex         # latex
 
-# emacs
-# remove the outdated default emacs from macOS (requires disabling system integrity)
-# TODO: add if...then case for these. Don't try to `sudo rm` when it's already gone
-sudo rm /usr/bin/emacs*
-sudo rm -rf /usr/share/emacs/
-brew install emacs # if you'd like the GUI, install `brew cask install emacs` instead. I prefer the command-line though
-
 # emacs key setup
+# TODO: automate these system preferences keybindings - search google for 'symbolichotkeys'
+# macOS: System Preferences > Keyboard > Shortcuts > Accessibility > check Invert Colors and set to Cmd-Q
 # macOS: System Preferences > Keyboard > Shortcuts > Mission Control > Uncheck C-Up, C-Down, C-Left, C-Right
+# macOS: System Preferences > Keyboard > Shortcuts > Mission Control > set the following:
+#   - Mission Control:     ctrl+option+up
+#   - Application windows: ctrl+option+down
+#   - Move left a space:   ctrl+option+left
+#   - Move right a space:  ctrl+option+right
 # iterm2: Preferences > Profiles > Keys > choose Left Option Key acts as: +Esc
 # iterm2: Preferences > Profiles > Keys >  Load Preset: Natural Text Editing
 # terminal: Preferences > Profiles > Keyboard > Use Option as Meta Key
