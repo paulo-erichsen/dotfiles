@@ -89,3 +89,5 @@
 	submodulesummary = 1
 [svn]
 	pushmergeinfo = true
+[credential]
+	helper = libsecret
