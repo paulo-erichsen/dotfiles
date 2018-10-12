@@ -91,3 +91,5 @@
 	pushmergeinfo = true
 [credential]
 	helper = libsecret
+[diff]
+	wsErrorHighlight = all
