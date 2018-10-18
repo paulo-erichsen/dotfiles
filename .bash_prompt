@@ -1,4 +1,13 @@
-export PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\w\[\033[00m\]" "\[\033[01;36m\]$\[\033[00m\] "'
+# git prompt
+# export PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\w\[\033[00m\]" "\[\033[01;36m\]$\[\033[00m\] "'
 
 # Save and reload the history after each command finishes
 # PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+
+# powerline prompt
+if command -v powerline-daemon &> /dev/null && [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
+    powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    . /usr/share/powerline/bindings/bash/powerline.sh
+fi

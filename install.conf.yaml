@@ -14,16 +14,21 @@
     ~/.cgdb: .cgdb
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
+    ~/.config/powerline/config.json: .config/powerline/config.json
+    ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
     ~/.exports: .exports
     # ~/.extra: .extra
     ~/.functions: .functions
     ~/.gdbinit: .gdbinit
     ~/.gitconfig: .gitconfig
     ~/.gitignore_global: .gitignore_global
+    ~/.local/bin/backup.sh: .local/bin/backup.sh
     ~/.path: .path
-    ~/bin/backup.sh: bin/backup.sh
-    ~/.ssh/config: .ssh/config
+    ~/.pkglists: .pkglists
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
+    ~/.ssh/config.d/work_environment.conf: .ssh/config.d/work_environment.conf
+    ~/.ssh/config: .ssh/config
+    ~/bin: .local/bin
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

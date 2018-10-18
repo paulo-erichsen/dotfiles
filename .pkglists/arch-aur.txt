@@ -1,0 +1,10 @@
+chromium-pepper-flash
+dropbox
+nautilus-dropbox
+package-query
+pcmciautils
+razercfg
+ttf-symbola
+ttf-wps-fonts
+xorg-server-utils
+yay
