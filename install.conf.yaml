@@ -15,6 +15,8 @@
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf: .config/fontconfig/conf.d/10-powerline-symbols.conf
+    ~/.config/git/config: .config/git/config
+    ~/.config/git/ignore: .config/git/ignore
     ~/.config/powerline/colorschemes/default.json: .config/powerline/colorschemes/default.json
     ~/.config/powerline/config.json: .config/powerline/config.json
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
@@ -23,8 +25,6 @@
     # ~/.extra: .extra
     ~/.functions: .functions
     ~/.gdbinit: .gdbinit
-    ~/.gitconfig: .gitconfig
-    ~/.gitignore_global: .gitignore_global
     ~/.local/bin/backup.sh: .local/bin/backup.sh
     ~/.local/share/fonts/PowerlineSymbols.otf: .local/share/fonts/PowerlineSymbols.otf
     ~/.path: .path

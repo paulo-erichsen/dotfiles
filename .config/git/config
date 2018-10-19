@@ -65,7 +65,6 @@
 	diff = auto
 [core]
 	editor = emacsclient -nw
-	excludesfile = ~/.gitignore_global
 	autocrlf = input
 [gc]
 	agressiveWindow = 150
