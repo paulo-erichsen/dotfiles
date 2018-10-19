@@ -26,14 +26,16 @@ alias vi='e'
 alias kill_emacs='emacsclient -e "(kill-emacs)"' # kills the emacs server
 
 # apt-get aliases
-alias updateallthethings='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
-alias update_all_the_things='updateallthethings'
-alias cleanupallthethings='echo "Cleaning Up" &&
+if command -v apt &> /dev/null; then
+    alias updateallthethings='sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get dist-upgrade -y'
+    alias update_all_the_things='updateallthethings'
+    alias cleanupallthethings='echo "Cleaning Up" &&
       sudo apt-get -f install &&
       sudo apt-get autoremove &&
       sudo apt-get -y autoclean &&
       sudo apt-get -y clean'
-alias cleanup_all_the_things='cleanupallthethings'
+    alias cleanup_all_the_things='cleanupallthethings'
+fi
 
 # git aliases
 alias d='git diff -w'
@@ -57,11 +59,13 @@ alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https:/
 
 # archlinux aliases
 alias backup='systemctl --user start backup.target'
-if [ -x /usr/bin/openvpn ]; then
+if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
     alias vpn_strong='sudo openvpn --config ~/openvpn-strong/US\ Seattle.ovpn --ca ~/openvpn-strong/ca.rsa.4096.crt --crl-verify ~/openvpn-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/login.conf'
-    alias vpn='vpn_iptables_up; vpn_strong'
-elif [ -x /usr/local/bin/openconnect ]; then
-    alias vpn='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1; sudo openconnect --user=paulo.fagundes americas.vpn.websense.com; networksetup -setdnsservers ethernet empty'
+    alias vpn='vpn_iptables_up && vpn_strong'
+fi
+
+if command -v openconnect &> /dev/null; then
+    alias vpn_work='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1; sudo openconnect --user=paulo.fagundes americas.vpn.websense.com; networksetup -setdnsservers ethernet empty'
 fi
