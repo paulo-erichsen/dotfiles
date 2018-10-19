@@ -12,14 +12,13 @@ if command -v powerline-daemon &> /dev/null; then
     readonly PKG_PATH=powerline/bindings/bash/powerline.sh
     if [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
         . /usr/share/$PKG_PATH
-    elif [ -f /usr/local/lib/python3.7/site-packages/$PKG_PATH ]; then
-        . /usr/local/lib/python3.7/site-packages/$PKG_PATH
-    elif [ -f $HOME/Library/Python/3.7/lib/python/site-packages/$PKG_PATH ]; then
-        . $HOME/Library/Python/3.7/lib/python/site-packages/$PKG_PATH
     else
-        # could do something like this too
-        # site_pkgs=$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')
-        echo "Could not find bash/powerline.sh location. Please verify ${BASH_SOURCE[0]}"
+        readonly BINDING_PATH="$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')/$PKG_PATH"
+        if [ -f $BINDING_PATH ]; then
+            . $BINDING_PATH
+        else
+            echo "Could not find bash/powerline.sh location. Please verify ${BASH_SOURCE[0]}"
+        fi
     fi
 elif command -v git &> /dev/null; then
     # git prompt

@@ -21,8 +21,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # editor aliases
 alias e='emacsclient -nw'
-alias vim='e'
-alias vi='e'
 alias kill_emacs='emacsclient -e "(kill-emacs)"' # kills the emacs server
 
 # apt-get aliases
