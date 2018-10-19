@@ -5,6 +5,9 @@
 
 - clean: ['~']
 
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+
 - link:
     ~/.aliases: .aliases
     ~/.bash_completion: .bash_completion
@@ -21,6 +24,7 @@
     ~/.config/powerline/config.json: .config/powerline/config.json
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
     ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
+    ~/.emacs.d: .emacs.d
     ~/.exports: .exports
     # ~/.extra: .extra
     ~/.functions: .functions
@@ -32,6 +36,3 @@
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
     ~/.ssh/config.d/work_environment.conf: .ssh/config.d/work_environment.conf
     ~/.ssh/config: .ssh/config
-
-- shell:
-  - [git submodule update --init --recursive, Installing submodules]
