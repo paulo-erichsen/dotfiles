@@ -15,7 +15,9 @@
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf: .config/fontconfig/conf.d/10-powerline-symbols.conf
+    ~/.config/powerline/colorschemes/default.json: .config/powerline/colorschemes/default.json
     ~/.config/powerline/config.json: .config/powerline/config.json
+    ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
     ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
     ~/.exports: .exports
     # ~/.extra: .extra
