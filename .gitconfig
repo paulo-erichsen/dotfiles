@@ -13,7 +13,7 @@
 	unstage = reset HEAD --
 
 	# log
-	first = log --reverse -1 # rev-list --max-parents=0 HEAD # displays the very first commit from git log
+	first = rev-list --max-parents=0 HEAD # displays the very first commit from git log
 	last = log -p -1 # displays the most recent commit
 	lg = log --oneline --format=format:'%C(bold blue)%h%C(reset) - %C(dim white)(%ar)%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'
 	lt = log --oneline --decorate --graph --all
@@ -90,6 +90,6 @@
 [svn]
 	pushmergeinfo = true
 [credential]
-	helper = libsecret
+	helper = libsecret # osxkeychain
 [diff]
 	wsErrorHighlight = all

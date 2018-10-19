@@ -32,7 +32,7 @@ if ! grep -q '/usr/local/bin/bash' /etc/shells; then
     sudo bash -c 'echo /usr/local/bin/bash >> /etc/shells'
     chsh -s /usr/local/bin/bash
 fi
-brew install wget --with-iri # Install `wget` with IRI support
+brew install wget
 brew install gnupg # Install GnuPG to enable PGP-signing commits
 
 # Install more recent versions of some macOS tools.
@@ -44,7 +44,6 @@ brew install screen
 
 # python
 brew install python
-brew install python3
 # python3 -m pip install --user --upgrade pip setuptools wheel
 
 # ruby
