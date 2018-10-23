@@ -55,7 +55,7 @@ alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' 
 alias clang-format-all='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
 alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https://github.com/BurntSushi/ripgrep
 
-# archlinux aliases
+# vpn
 alias backup='systemctl --user start backup.target'
 if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
@@ -64,6 +64,9 @@ if command -v openvpn &> /dev/null; then
     alias vpn='vpn_iptables_up && vpn_strong'
 fi
 
+# vpn for work
 if command -v openconnect &> /dev/null; then
-    alias vpn_work='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1; sudo openconnect --user=paulo.fagundes americas.vpn.websense.com; networksetup -setdnsservers ethernet empty'
+    alias dns_work_up='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1'
+    alias dns_work_down='networksetup -setdnsservers ethernet empty'
+    alias vpn_work='sudo openconnect --user=paulo.fagundes americas.vpn.websense.com'
 fi

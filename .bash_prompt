@@ -9,17 +9,19 @@ if command -v powerline-daemon &> /dev/null; then
     powerline-daemon -q
     POWERLINE_BASH_CONTINUATION=1
     POWERLINE_BASH_SELECT=1
-    readonly PKG_PATH=powerline/bindings/bash/powerline.sh
+    pkg_path=powerline/bindings/bash/powerline.sh
     if [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
-        . /usr/share/$PKG_PATH
+        . /usr/share/$pkg_path
     else
-        readonly BINDING_PATH="$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')/$PKG_PATH"
-        if [ -f $BINDING_PATH ]; then
-            . $BINDING_PATH
+        binding_path="$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')/$pkg_path"
+        if [ -f $binding_path ]; then
+            . $binding_path
         else
             echo "Could not find bash/powerline.sh location. Please verify ${BASH_SOURCE[0]}"
         fi
+        unset binding_path
     fi
+    unset pkg_path
 elif command -v git &> /dev/null; then
     # git prompt
     export PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\w\[\033[00m\]" "\[\033[01;36m\]$\[\033[00m\] "'
