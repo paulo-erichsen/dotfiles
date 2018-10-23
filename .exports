@@ -14,12 +14,6 @@ export EDITOR='emacsclient -nw'
 export VISUAL='emacsclient -nw'
 export GIT_EDITOR='emacsclient -nw'
 
-# setup PS1 with git
-export GIT_PS1_SHOWUPSTREAM=1
-export GIT_PS1_SHOWCOLORHINTS=1
-export GIT_PS1_SHOWDIRTYSTATE=1
-# export GIT_PS1_SHOWUNTRACKEDFILES=0
-
 # ruby
 # Add rbenv to PATH for scripting
 # export PATH="$HOME/.rbenv/bin:$PATH"

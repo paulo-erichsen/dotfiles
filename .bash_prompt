@@ -22,8 +22,13 @@ if command -v powerline-daemon &> /dev/null; then
         unset binding_path
     fi
     unset pkg_path
-elif command -v git &> /dev/null; then
+elif command -v __git_ps1 &> /dev/null; then
     # git prompt
+    export GIT_PS1_SHOWUPSTREAM=1
+    export GIT_PS1_SHOWCOLORHINTS=1
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    # export GIT_PS1_SHOWUNTRACKEDFILES=0
+
     export PROMPT_COMMAND='__git_ps1 "\[\033[01;34m\]\w\[\033[00m\]" "\[\033[01;36m\]$\[\033[00m\] "'
 else
     # ubuntu default prompt
