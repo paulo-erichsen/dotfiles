@@ -182,6 +182,7 @@ openssh
 openvpn
 orca
 pacman
+pacman-contrib
 pandoc
 paprefs
 patch
@@ -226,6 +227,7 @@ texlive-core
 texlive-fontsextra
 texlive-latexextra
 tigervnc
+tor
 totem
 tracker
 ttf-liberation
