@@ -1,3 +1,4 @@
+# -*- mode: shell-script; -*-
 # switch between the 9.4.1 and latest versions of xcode
 # this function assumes you have v9.4.1 installed in /Applications/Xcode-9.4.1.app
 if [ -x /usr/bin/xcode-select ]; then

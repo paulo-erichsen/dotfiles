@@ -1,3 +1,4 @@
+# -*- mode: shell-script; -*-
 # Add `~/bin` and `~/.local/bin` to the `$PATH`
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH";
 

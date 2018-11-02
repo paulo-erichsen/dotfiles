@@ -1,3 +1,4 @@
+# -*- mode: shell-script; -*-
 # git completion
 if [ -f  /usr/share/git/completion/git-prompt.sh ]; then
     . /usr/share/git/completion/git-prompt.sh
