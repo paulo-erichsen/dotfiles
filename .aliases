@@ -56,8 +56,12 @@ alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' 
 alias clang-format-all='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
 alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https://github.com/BurntSushi/ripgrep
 
-# vpn
+# systemctl aliases
+alias systemctl_list_services='systemctl list-unit-files --type=service'
+alias systemctl_reload='sudo systemctl daemon-reload'
 alias backup='systemctl --user start backup.target'
+
+# vpn
 if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'

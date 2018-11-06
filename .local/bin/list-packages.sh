@@ -1,6 +1,6 @@
-#!/bin/bash
-mkdir -p ~/.pkglists
+#!/usr/bin/env bash
 
+mkdir -p ~/.pkglists
 readonly PKG_LIST_PATH=$HOME/.pkglists
 
 # pacman
@@ -22,7 +22,11 @@ if command -v apt-mark &> /dev/null; then
 fi
 
 # snap
-# snap list
+if command -v &> /dev/null; then
+    snap list | grep -Ev canonical > "$PKG_LIST_PATH/snap.txt"
+fi
 
 # pip
-# python3 -m pip list --user
+# python3 -m pip freeze --user -r "$PKG_LIST_PATH/pip.txt" > "$PKG_LIST_PATH/pip.txt.tmp"
+python3 -m pip freeze --user -r "$PKG_LIST_PATH/pip.txt" | grep -v 'added by pip freeze' | awk -F '==' '{ print $1 }' > "$PKG_LIST_PATH/pip.txt.tmp"
+mv "$PKG_LIST_PATH/pip.txt.tmp" "$PKG_LIST_PATH/pip.txt"

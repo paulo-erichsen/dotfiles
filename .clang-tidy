@@ -14,7 +14,7 @@ CheckOptions:
   - { key: readability-identifier-naming.EnumConstantCase,        value: UPPER_CASE }
   - { key: readability-identifier-naming.EnumConstantPrefix,      value: ''         }
   - { key: readability-identifier-naming.EnumConstantSuffix,      value: ''         }
-  - { key: readability-identifier-naming.FunctionCase,            value: CamelCase  }
+  - { key: readability-identifier-naming.FunctionCase,            value: lower_case }
   - { key: readability-identifier-naming.FunctionPrefix,          value: ''         }
   - { key: readability-identifier-naming.FunctionSuffix,          value: ''         }
   - { key: readability-identifier-naming.GlobalConstantCase,      value: UPPER_CASE }
@@ -42,7 +42,7 @@ CheckOptions:
   - { key: readability-identifier-naming.StaticConstantCase,      value: UPPER_CASE }
   - { key: readability-identifier-naming.StaticConstantPrefix,    value: ''         }
   - { key: readability-identifier-naming.StaticConstantSuffix,    value: ''         }
-  - { key: readability-identifier-naming.StructCase,              value: CamelCase  }
+  - { key: readability-identifier-naming.StructCase,              value: lower_case }
   - { key: readability-identifier-naming.StructPrefix,            value: ''         }
   - { key: readability-identifier-naming.StructSuffix,            value: ''         }
   - { key: readability-identifier-naming.TemplateParameterCase,   value: CamelCase  }

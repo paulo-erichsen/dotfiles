@@ -1,11 +1,23 @@
-#!/bin/sh
-sudo pacman -S --needed - < ~/.pkglists/arch-official.txt
+#!/usr/bin/env bash
 
-# TODO: implement this script
-# - it should:
-# if arch-linux, install arch-official, yay, aur packages through yay
-# if macos, install brew and the brew packages and brew cask packages
-# python: something like
-# python3 -m pip install --user flake8 mypy pylint numpy matplotlib black virtualenv virtualenvwrapper
-# see an example of different packages to be installed - https://github.com/hugdru/dotfiles
-#   such as ruby (gem), python (pip), javascript (npm), arch (pacman), etc...
+readonly PKG_LIST_PATH=$HOME/.pkglists
+
+# pacman
+if command -v pacman &> /dev/null; then
+    sudo pacman -S --needed - < "$PKG_LIST_PATH/arch-official.txt"
+
+    # TODO: install yay, aur packages through yay
+fi
+
+# apt
+if command -v apt-mark &> /dev/null; then
+    sudo apt install $(cat "$PKG_LIST_PATH/apt.txt")
+fi
+
+# homebrew
+# brew, brew cask
+
+# snap
+
+# python
+python3 -m pip install --user --requirement "$PKG_LIST_PATH/pip.txt"
