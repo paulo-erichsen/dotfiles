@@ -12,6 +12,7 @@ curl
 emacs-nox
 gcc
 git
+htop
 keepassxc
 libaudit-dev
 libauparse-dev
@@ -23,6 +24,7 @@ libsystemd-dev
 libtool
 libxcb-xtest0
 make
+ninja-build
 ntpdate
 nvidia-384
 openconnect
