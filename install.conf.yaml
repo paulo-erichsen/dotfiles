@@ -29,6 +29,7 @@
     # ~/.extra: .extra
     ~/.functions: .functions
     ~/.gdbinit: .gdbinit
+    ~/.gemrc: .gemrc
     ~/.local/bin/backup.sh: .local/bin/backup.sh
     ~/.local/share/fonts/PowerlineSymbols.otf: .local/share/fonts/PowerlineSymbols.otf
     ~/.path: .path

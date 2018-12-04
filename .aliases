@@ -45,7 +45,7 @@ alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo 
 if [ ! -x /usr/bin/open ]; then
    alias open='xdg-open'
 fi
-alias keygen='ssh-keygen -t rsa -b 16384'
+alias ssh-keygen-mine='ssh-keygen -t rsa -b 16384'
 alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
 
 # parse input into pretty strings
