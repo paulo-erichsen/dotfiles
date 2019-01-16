@@ -48,7 +48,7 @@ def find_mkv_files(path: str) -> List[str]:
         for file in files:
             if file.endswith(".mkv"):
                 mkv_files.append(os.path.join(root, file))
-    return mkv_files
+    return mkv_files if mkv_files else [path]
 
 
 def display_no_lang_mkv_files(files: List[str], search_audio: bool) -> None:
@@ -66,13 +66,13 @@ def display_no_lang_mkv_files(files: List[str], search_audio: bool) -> None:
             name = j["file_name"]
             for track in j["tracks"]:
                 # id = track["id"]
-                # type = track["type"]
+                track_type = track["type"]
                 # codec = track["codec"]
-                if (search_audio and type != "video") or type == "subtitles":
+                if (search_audio and track_type != "video") or track_type == "subtitles":
                     lang = track["properties"]["language"]
                     if lang == "und":
                         # und_lang_files.append(name)
-                        print(name)
+                        print(type, search_audio, name, track)
                         break
         else:
             print("failed to parse: ", file, " - ret_code: ", process.returncode)

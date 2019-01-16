@@ -23,7 +23,7 @@
     ~/.config/powerline/colorschemes/default.json: .config/powerline/colorschemes/default.json
     ~/.config/powerline/config.json: .config/powerline/config.json
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
-    ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
+    # ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
     ~/.emacs.d: .emacs.d
     ~/.exports: .exports
     # ~/.extra: .extra
@@ -37,3 +37,6 @@
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
     ~/.ssh/config.d/work_environment.conf: .ssh/config.d/work_environment.conf
     ~/.ssh/config: .ssh/config
+
+- shell:
+    - "[ -e /etc/pacman.d/hooks/reflector-mirror-update.hook ] || sudo ln etc/pacman.d/hooks/reflector-mirror-update.hook /etc/pacman.d/hooks/reflector-mirror-update.hook"
