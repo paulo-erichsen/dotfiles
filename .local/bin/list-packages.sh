@@ -22,7 +22,7 @@ if command -v apt-mark &> /dev/null; then
 fi
 
 # snap
-if command -v &> /dev/null; then
+if command -v snap &> /dev/null; then
     snap list | grep -Ev canonical > "$PKG_LIST_PATH/snap.txt"
 fi
 
