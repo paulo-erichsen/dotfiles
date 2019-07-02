@@ -80,6 +80,7 @@ brew cask install p4v             # perforce - helix visual client
 brew cask install packages        # allows .pkgproj (installer) files to be created and managed
 brew cask install zoomus          # zoom video conferencing
 brew cask install microsoft-teams # collaboration tool similar to slack
+brew cask install slack
 brew cask install keepassxc
 brew cask install dropbox
 # brew cask install virtualbox

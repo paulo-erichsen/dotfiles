@@ -71,7 +71,7 @@ fi
 
 # vpn for work
 if command -v openconnect &> /dev/null; then
-    alias dns_work_up='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 1.1.1.1 10.10.1.1'
+    alias dns_work_up='networksetup -setdnsservers ethernet 10.214.65.11 10.214.65.12 10.25.150.14 10.25.150.15 10.64.82.19 1.1.1.1 10.10.1.1'
     alias dns_work_down='networksetup -setdnsservers ethernet empty'
-    alias vpn_work='sudo openconnect --user=paulo.fagundes americas.vpn.websense.com'
+    alias vpn_work='dns_work_up; sudo openconnect --user=paulo.fagundes americas.vpn.websense.com; dns_work_down'
 fi
