@@ -3,11 +3,15 @@
 # this function assumes you have v9.4.1 installed in /Applications/Xcode-9.4.1.app
 if [ -x /usr/bin/xcode-select ]; then
     function switch_xcode {
-        if [ $(xcode-select -p) == "/Applications/Xcode.app/Contents/Developer" ]; then
-            sudo xcode-select --switch /Applications/Xcode-9.4.1.app
-        else
-            sudo xcode-select --switch /Applications/Xcode.app
-        fi
-        xcode-select -p
+	if [ $(xcode-select -p) == "/Applications/Xcode.app/Contents/Developer" ]; then
+	    sudo xcode-select --switch /Applications/Xcode-9.4.1.app
+	else
+	    sudo xcode-select --switch /Applications/Xcode.app
+	fi
+	xcode-select -p
     }
 fi
+
+# function write_iso_to_usb
+# https://askubuntu.com/a/377561
+# sudo dd bs=4M if=archlinux-2019.07.01-x86_64.iso of=/dev/sdb conv=fdatasync status=progress
