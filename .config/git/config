@@ -57,7 +57,9 @@
 
 	# misc
 	ls-ignored = ls-files --exclude-standard --ignored --others
-	review = push --set-upstream gerrit HEAD:refs/for/master
+	push-review = push --set-upstream gerrit HEAD:refs/for/master
+	push-review-wip = push --set-upstream gerrit HEAD:refs/for/master%wip
+	push-review-branch = !git push --set-upstream gerrit HEAD:refs/for/$1
 	tagcleanup =  fetch --prune origin +refs/tags/*:refs/tags/* # removes local tags that are no longer on the remote repository
 	visual = !gitk
 
