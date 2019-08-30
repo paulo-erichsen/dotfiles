@@ -35,6 +35,7 @@
 	# does a `git pull --rebase` on all ~/git/* repositories
 	u = "!f() { \
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
+		      [ ! -d $D/.git/refs/remotes ] && continue; \
 		      cd $D; \
 		      echo \"$(tput setaf 6)>>> $(git remote -v | grep origin | head -n1 | awk '{print $2}') - $(git rev-parse --abbrev-ref HEAD)$(tput sgr0)\"; \
 		      git fetch --all --prune && git rebase --autostash; \
