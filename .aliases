@@ -61,10 +61,11 @@ alias systemctl_list_services='systemctl list-unit-files --type=service'
 alias systemctl_reload='sudo systemctl daemon-reload'
 alias backup='systemctl --user start backup.target'
 
+
 # vpn
 if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
-    alias vpn_strong='sudo openvpn --config ~/openvpn-strong/US\ Seattle.ovpn --ca ~/openvpn-strong/ca.rsa.4096.crt --crl-verify ~/openvpn-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/login.conf'
+    alias vpn_strong='sudo openvpn --config ~/openvpn-strong/US\ Seattle.ovpn --ca ~/openvpn-strong/ca.rsa.4096.crt --crl-verify ~/openvpn-strong/crl.rsa.4096.pem --script-security 2 --auth-user-pass /etc/openvpn/client/login.conf --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf --dhcp-option DOMAIN-ROUTE .'
     alias vpn='vpn_iptables_up && vpn_strong'
 fi
