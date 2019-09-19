@@ -1,12 +1,3 @@
-chromium-pepper-flash
-discord
-dropbox
-nautilus-dropbox
-package-query
-pcmciautils
-razercfg
-tor-browser
-ttf-symbola
-ttf-wps-fonts
-xorg-server-utils
+powerline-fonts-git
+slack-desktop
 yay

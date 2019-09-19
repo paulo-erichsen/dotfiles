@@ -6,7 +6,14 @@ readonly PKG_LIST_PATH=$HOME/.pkglists
 if command -v pacman &> /dev/null; then
     sudo pacman -S --needed - < "$PKG_LIST_PATH/arch-official.txt"
 
-    # TODO: install yay, aur packages through yay
+    if ! command -v yay &> /dev/null; then
+	mkdir -p "$HOME/git"
+	git clone https://aur.archlinux.org/yay.git "$HOME/git/yay"
+	cd "$HOME/git/yay" || exit 1
+	makepkg -si --needed --noconfirm
+    fi
+
+    yay -S --needed - < "$PKG_LIST_PATH/arch-aur.txt"
 fi
 
 # apt
@@ -20,4 +27,4 @@ fi
 # snap
 
 # python
-python3 -m pip install --user --requirement "$PKG_LIST_PATH/pip.txt"
+python3 -m pip install --user --upgrade --requirement "$PKG_LIST_PATH/pip.txt"

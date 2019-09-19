@@ -3,4 +3,4 @@
 	url = https://github.com/anishathalye/dotbot
 [submodule ".emacs.d"]
 	path = .emacs.d
-	url = git@github.com:paulohefagundes/.emacs.d.git
+	url = https://github.com/paulohefagundes/.emacs.d.git
