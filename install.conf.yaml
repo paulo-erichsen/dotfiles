@@ -17,6 +17,7 @@
     ~/.cgdb: .cgdb
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
+    ~/.config/flake8: .config/flake8
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf: .config/fontconfig/conf.d/10-powerline-symbols.conf
     ~/.config/git/config: .config/git/config
     ~/.config/git/ignore: .config/git/ignore
