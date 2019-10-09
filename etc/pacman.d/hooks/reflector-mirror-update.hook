@@ -8,4 +8,4 @@ Target = pacman-mirrorlist
 Description = Updating mirrorlist...
 When = PostTransaction
 Depends = reflector
-Exec = reflector --verbose --latest 40 --number 10 --country 'United States' --sort rate --protocol https --save /etc/pacman.d/mirrorlist
+Exec = reflector --verbose --latest 64 --number 16 --age 24 --protocol https --country 'United States' --sort rate --save /etc/pacman.d/mirrorlist

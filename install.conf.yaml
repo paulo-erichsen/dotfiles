@@ -40,4 +40,8 @@
     ~/.ssh/config: .ssh/config
 
 - shell:
-    - "[ -e /etc/pacman.d/hooks/reflector-mirror-update.hook ] || sudo ln etc/pacman.d/hooks/reflector-mirror-update.hook /etc/pacman.d/hooks/reflector-mirror-update.hook"
+    - |
+      if command -v pacman > /dev/null; then
+          [ -d /etc/pacman.d/hooks ] || sudo mkdir /etc/pacman.d/hooks
+          [ -f /etc/pacman.d/hooks/reflector-mirror-update.hook ] || sudo ln -sf "$(pwd)/etc/pacman.d/hooks/reflector-mirror-update.hook" /etc/pacman.d/hooks/reflector-mirror-update.hook
+      fi
