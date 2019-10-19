@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
 
+# TODO: move from ~/.pkglists to $XDG_DATA_HOME
 readonly PKG_LIST_PATH=$HOME/.pkglists
 
 # pacman
 if command -v pacman &> /dev/null; then
-    sudo pacman -S --needed - < "$PKG_LIST_PATH/arch-official.txt"
+    sudo pacman -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-official.txt"
 
     if ! command -v yay &> /dev/null; then
-	mkdir -p "$HOME/git"
-	git clone https://aur.archlinux.org/yay.git "$HOME/git/yay"
-	cd "$HOME/git/yay" || exit 1
-	makepkg -si --needed --noconfirm
+        mkdir -p "$HOME/git"
+        git clone https://aur.archlinux.org/yay.git "$HOME/git/yay"
+        cd "$HOME/git/yay" || exit 1
+        makepkg -si --needed --noconfirm
     fi
 
-    yay -S --needed - < "$PKG_LIST_PATH/arch-aur.txt"
+    yay -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-aur.txt"
 fi
 
 # apt

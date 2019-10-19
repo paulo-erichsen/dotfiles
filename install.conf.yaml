@@ -11,9 +11,13 @@
 - link:
     ~/.aliases: .aliases
     ~/.bash_completion: .bash_completion
-    ~/.bash_profile: .bash_profile
+    ~/.bash_profile:
+      path: .bash_profile
+      force: true
     ~/.bash_prompt: .bash_prompt
-    ~/.bashrc: .bashrc
+    ~/.bashrc:
+      path: .bashrc
+      force: true
     ~/.cgdb: .cgdb
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
