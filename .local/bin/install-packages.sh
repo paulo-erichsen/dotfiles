@@ -11,7 +11,7 @@ if command -v pacman &> /dev/null; then
         mkdir -p "$HOME/git"
         git clone https://aur.archlinux.org/yay.git "$HOME/git/yay"
         cd "$HOME/git/yay" || exit 1
-        makepkg -si --needed --noconfirm
+        makepkg -sri --needed --noconfirm
     fi
 
     yay -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-aur.txt"

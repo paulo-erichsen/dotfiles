@@ -11,6 +11,8 @@ htop
 jq
 neofetch
 nfs-utils
+noto-fonts
+noto-fonts-emoji
 npm
 openvpn
 python-pip
