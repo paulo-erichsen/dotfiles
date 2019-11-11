@@ -1,6 +1,9 @@
 # -*- mode: shell-script; -*-
 # Add `~/bin` and `~/.local/bin` to the `$PATH`
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH";
+
+if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+    export PATH="$HOME/.local/bin:$PATH";
+fi
 
 if [ -x /usr/local/bin/brew ]; then
     export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH" # brew install coreutils

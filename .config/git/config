@@ -33,6 +33,7 @@
 	theirs = !"f() { git checkout --theirs $@ && git add $@; }; f"
 
 	# does a `git pull --rebase` on all ~/git/* repositories
+	# TODO: fix this alias function not working when run from inside a submodule
 	u = "!f() { \
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
 		      [ ! -d $D/.git/refs/remotes ] && continue; \
