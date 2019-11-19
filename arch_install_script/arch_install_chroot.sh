@@ -106,6 +106,7 @@ ln -s /usr/lib/systemd/user/emacs.service  ~/.config/systemd/user/default.target
 ln -s  /usr/lib/systemd/user/syncthing.service ~/.config/systemd/user/default.target.wants/syncthing.service
 
 # gnome settings - commenting out whereas dconf doesn't seem to work in arch-chroot
+# TODO: maybe see if I can set these through GTK settings - https://wiki.archlinux.org/index.php/GTK#Configuration
 # # gtk-theme: arc-dark
 # gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Dark'
 
