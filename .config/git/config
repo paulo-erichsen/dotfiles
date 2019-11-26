@@ -46,10 +46,13 @@
 		   done; \
 	     }; f"
 
-	# daemon
-	# http://railsware.com/blog/2013/09/19/taming-the-git-daemon-to-quickly-share-git-repository/
-	serve = !git daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
-	hub = !git daemon --base-path=. --export-all --enable=receive-pack --reuseaddr --informative-errors --verbose # share, allow push
+	# git-daemon(1) - a simple server for git repositories
+	# https://railsware.com/blog/taming-the-git-daemon-to-quickly-share-git-repository/
+	# examples:
+	#  - cd ~/git/; git serve;         # share multiple repos # then on other machine or terminal: git clone git://127.0.0.1/dotfiles
+	#  - cd ~/git/dotfiles; git serve; # share single repo    # then on other machine or terminal: git clone git://127.0.0.1/ dotfiles
+	serve = daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose # share, read-only
+	hub   = daemon --base-path=. --export-all --reuseaddr --informative-errors --verbose --enable=receive-pack # share, allow push
 
 	# submodule aliases
 	sdiff = "!git diff && git submodule foreach 'git diff'"
