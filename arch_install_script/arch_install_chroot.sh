@@ -72,13 +72,22 @@ echo "$SETUP_USER:default" | chpasswd # set a default password such that we can 
 echo "$SETUP_USER ALL=(ALL) ALL" >> /etc/sudoers
 
 ###### user specific config
+# install reflector first to allow fast downloads
+pacman -S --noconfirm reflector
+if command -v reflector > /dev/null; then
+    reflector --verbose --latest 64 --number 16 --age 24 --protocol https --country 'United States' --sort rate --save /etc/pacman.d/mirrorlist
+fi
+
 pacman -Syu --noconfirm
 pacman -S --noconfirm --needed \
-       base-devel \
        emacs-nox \
+       fakeroot \
        git \
        gnome \
+       make \
        nvidia \
+       patch \
+       sudo \
        systemd-swap
 # TODO: go over of list of gnome packages and only install the ones I really need
 # TODO: add functionality to auto detect nvidia vs amd for pacman
@@ -104,29 +113,7 @@ ln -s /usr/lib/systemd/user/emacs.service  ~/.config/systemd/user/default.target
 
 # systemctl --user enable syncthing.service
 ln -s  /usr/lib/systemd/user/syncthing.service ~/.config/systemd/user/default.target.wants/syncthing.service
-
-# gnome settings - commenting out whereas dconf doesn't seem to work in arch-chroot
-# TODO: maybe see if I can set these through GTK settings - https://wiki.archlinux.org/index.php/GTK#Configuration
-# # gtk-theme: arc-dark
-# gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Dark'
-
-# # terminal font: inconsolata-g for powerline
-# gsettings set "org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:$(gsettings get org.gnome.Terminal.ProfilesList default | tr -d "'")/" font 'Inconsolata-g for Powerline Medium 11'
-
-# # favorite-apps
-# gsettings set org.gnome.shell favorite-apps "['org.gnome.Nautilus.desktop', 'firefox.desktop', 'chromium.desktop', 'org.gnome.Terminal.desktop']"
-
-# # media keys
-# gsettings set org.gnome.settings-daemon.plugins.media-keys next "['<Primary><Alt>n']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys play "['<Primary><Alt>p']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys previous "['<Primary><Alt>b']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys volume-down "['<Primary><Alt>minus']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys volume-mute "['<Primary><Alt>period']"
-# gsettings set org.gnome.settings-daemon.plugins.media-keys volume-up "['<Primary><Alt>equal']"
 EOF
-if command -v reflector > /dev/null; then
-    reflector --verbose --latest 64 --number 16 --age 24 --protocol https --country 'United States' --sort rate --save /etc/pacman.d/mirrorlist
-fi
 
 # lock the root password and expire the user's password
 echo 'locking the root account'

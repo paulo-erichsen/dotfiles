@@ -2,7 +2,7 @@
 
 set -e # TODO: remove me
 
-SETUP_DEVICE=sda
+SETUP_DEVICE=sda # TODO: support NVMe devices
 
 # fix the date in case we are in an older vm
 timedatectl set-ntp true
