@@ -25,6 +25,7 @@
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf: .config/fontconfig/conf.d/10-powerline-symbols.conf
     ~/.config/git/config: .config/git/config
     ~/.config/git/ignore: .config/git/ignore
+    ~/.config/mypy/config: .config/mypy/config
     ~/.config/powerline/colorschemes/default.json: .config/powerline/colorschemes/default.json
     ~/.config/powerline/config.json: .config/powerline/config.json
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
