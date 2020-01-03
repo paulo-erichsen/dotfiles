@@ -2,7 +2,9 @@
 # Save and reload the history after each command finishes
 # PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
-if command -v powerline-daemon &> /dev/null; then
+if [[ $TERM == "dumb" ]]; then
+    PS1="> " # powerline workaround for emacs tramp - https://stackoverflow.com/a/8363532
+elif command -v powerline-daemon &> /dev/null; then
     # powerline prompt
     # install with the following command:
     # if python was installed with brew: $(python3 -m pip install powerline-status)
