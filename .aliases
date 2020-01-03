@@ -61,13 +61,12 @@ alias systemctl_list_services='systemctl list-unit-files --type=service'
 alias systemctl_reload='sudo systemctl daemon-reload'
 alias backup='systemctl --user start backup.target'
 
-
 # vpn
 if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
-    alias vpn_strong='sudo openvpn --config /etc/openvpn/client/pia-strong/US\ Seattle.ovpn --ca /etc/openvpn/client/pia-strong/ca.rsa.4096.crt --crl-verify /etc/openvpn/client/pia-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/pia_login.conf --script-security 2 --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf --dhcp-option DOMAIN-ROUTE .'
+    alias vpn_strong='sudo openvpn --config /etc/openvpn/client/pia-strong/US\ Seattle.ovpn --ca /etc/openvpn/client/pia-strong/ca.rsa.4096.crt --crl-verify /etc/openvpn/client/pia-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/pia_login.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
     alias vpn='vpn_iptables_up && vpn_strong'
-    alias vpn_brisbane='sudo openvpn --config /etc/openvpn/client/opengear-brisbane.conf --script-security 2 --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf --dhcp-option DOMAIN-ROUTE .'
-    alias vpn_sandy='sudo openvpn --config /etc/openvpn/client/opengear-sandy.conf --auth-user-pass /etc/openvpn/client/sandy_login.conf --script-security 2 --up /etc/openvpn/update-resolv-conf --down /etc/openvpn/update-resolv-conf --dhcp-option DOMAIN-ROUTE .'
+    alias vpn_brisbane='sudo openvpn --config /etc/openvpn/client/opengear-brisbane.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
+    alias vpn_sandy='sudo openvpn --config /etc/openvpn/client/opengear-sandy.conf --auth-user-pass /etc/openvpn/client/sandy_login.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
 fi
