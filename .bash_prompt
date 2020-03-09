@@ -2,29 +2,35 @@
 # Save and reload the history after each command finishes
 # PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 
+function _start_powerline {
+    powerline-daemon -q
+    export POWERLINE_BASH_CONTINUATION=1
+    export POWERLINE_BASH_SELECT=1
+    local pkg_path=powerline/bindings/bash/powerline.sh
+    if . /usr/share/$pkg_path 2>/dev/null; then
+        return
+    fi
+
+    if . "$(python3 -m site --user-site)/$pkg_path" 2>/dev/null; then
+        return
+    fi
+
+    local binding_path
+    binding_path="$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')/$pkg_path"
+    if [ -f "$binding_path" ]; then
+        . "$binding_path"
+    else
+        echo "Could not find bash/powerline.sh location. Please verify ${BASH_SOURCE[0]}"
+    fi
+}
+
 if [[ $TERM == "dumb" ]]; then
     PS1="> " # powerline workaround for emacs tramp - https://stackoverflow.com/a/8363532
 elif command -v powerline-daemon &> /dev/null; then
     # powerline prompt
     # install with the following command:
-    # if python was installed with brew: $(python3 -m pip install powerline-status)
-    # else: $(python3 -m pip install --user powerline-status)
-    powerline-daemon -q
-    POWERLINE_BASH_CONTINUATION=1
-    POWERLINE_BASH_SELECT=1
-    pkg_path=powerline/bindings/bash/powerline.sh
-    if [ -f /usr/share/powerline/bindings/bash/powerline.sh ]; then
-        . /usr/share/$pkg_path
-    else
-        binding_path="$(pip3 show powerline-status | grep 'Location:' | awk '{ print $2 }')/$pkg_path"
-        if [ -f $binding_path ]; then
-            . $binding_path
-        else
-            echo "Could not find bash/powerline.sh location. Please verify ${BASH_SOURCE[0]}"
-        fi
-        unset binding_path
-    fi
-    unset pkg_path
+    # $(python3 -m pip install --user powerline-status)
+    _start_powerline
 elif command -v __git_ps1 &> /dev/null; then
     # git prompt
     export GIT_PS1_SHOWUPSTREAM=1
@@ -78,3 +84,5 @@ else
             ;;
     esac
 fi
+
+unset -f _start_powerline
