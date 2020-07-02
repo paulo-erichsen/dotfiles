@@ -1,0 +1,25 @@
+[Unit]
+Description=borg backup
+
+[Service]
+Type=oneshot
+Environment=BORG_REPO=nas:/share/backups/paulo
+Environment=BORG_PASSCOMMAND="cat /home/paulo/.local/share/.borg-passphrase"
+Environment=BORG_RSH="ssh -i /home/paulo/.ssh/id_rsa_borg"
+
+ExecStart=/usr/bin/borg create \
+    --stats \
+    ::{now} \
+    /home/paulo/Sync \
+    /mnt/data/my_files \
+    /mnt/data/games \
+    /mnt/data/music \
+    /mnt/data/books
+
+ExecStartPost=/usr/bin/borg prune \
+    --verbose \
+    --list \
+    --keep-daily=7 \
+    --keep-weekly=4 \
+    --keep-within 2d \
+    --stats
