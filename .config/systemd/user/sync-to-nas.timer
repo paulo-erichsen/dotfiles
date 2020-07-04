@@ -1,0 +1,8 @@
+[Unit]
+Description=Run sync-to-nas
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target

@@ -31,6 +31,8 @@
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
     ~/.config/systemd/user/borg.service: .config/systemd/user/borg.service
     ~/.config/systemd/user/borg.timer: .config/systemd/user/borg.timer
+    ~/.config/systemd/user/sync-to-nas.service: .config/systemd/user/sync-to-nas.service
+    ~/.config/systemd/user/sync-to-nas.timer: .config/systemd/user/sync-to-nas.timer
     # ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
     ~/.emacs.d: .emacs.d
     ~/.exports: .exports
@@ -38,7 +40,6 @@
     ~/.functions: .functions
     ~/.gdbinit: .gdbinit
     ~/.gemrc: .gemrc
-    ~/.local/bin/backup.sh: .local/bin/backup.sh
     ~/.local/share/fonts/PowerlineSymbols.otf: .local/share/fonts/PowerlineSymbols.otf
     ~/.path: .path
     ~/.pkglists: .pkglists

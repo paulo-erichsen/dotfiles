@@ -1,6 +1,0 @@
-[Unit]
-Description=Backup Timer Target
-StopWhenUnneeded=yes
-
-[Install]
-WantedBy=timers.target
