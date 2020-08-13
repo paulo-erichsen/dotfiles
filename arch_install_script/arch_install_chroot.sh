@@ -1,12 +1,14 @@
 #!/usr/bin/bash
 
 set -e # TODO: remove me
+set -x
 
 # TODO: bounce out of this script if it wasn't called by arch_install.sh
 
 SETUP_TIMEZONE=America/Denver
 SETUP_HOSTNAME=arch-pc
 SETUP_USER=paulo
+DEFAULT_USER_PASSWORD=default
 
 # timezone, locale, hostname
 ln -sf /usr/share/zoneinfo/$SETUP_TIMEZONE /etc/localtime
@@ -66,11 +68,6 @@ EOF
 systemctl enable systemd-resolved.service
 systemctl enable systemd-networkd.service
 
-# create a new user
-useradd --create-home --shell /bin/bash $SETUP_USER
-echo "$SETUP_USER:default" | chpasswd # set a default password such that we can use sudo for now, we will expire it later
-echo "$SETUP_USER ALL=(ALL) ALL" >> /etc/sudoers
-
 ###### user specific config
 # install reflector first to allow fast downloads
 pacman -S --noconfirm reflector
@@ -82,14 +79,16 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm --needed \
        emacs-nox \
        fakeroot \
+       gdm \
        git \
-       gnome \
+       gnome-control-center \
+       gnome-desktop \
+       gnome-terminal \
        make \
-       nvidia \
+       nautilus \
        patch \
        sudo \
        systemd-swap
-# TODO: go over of list of gnome packages and only install the ones I really need
 # TODO: add functionality to auto detect nvidia vs amd for pacman
 
 # systemd-swap
@@ -98,9 +97,15 @@ sed -i 's/swapfc_force_preallocated=0/swapfc_force_preallocated=1/' /etc/systemd
 systemctl enable systemd-swap.service
 systemctl enable gdm.service # gnome display manager
 
+# create a new user
+useradd --create-home --shell /bin/bash $SETUP_USER
+echo "$SETUP_USER:$DEFAULT_USER_PASSWORD" | chpasswd # set a default password such that we can use sudo for now, we will expire it later
+echo 'root ALL=(ALL) ALL' >> /etc/sudoers
+echo "$SETUP_USER ALL=(ALL) ALL" >> /etc/sudoers
+
 # install dotfiles, and packages it lists
 echo "installing dotfiles and packages for user: $SETUP_USER"
-su $SETUP_USER <<EOF
+echo "$DEFAULT_USER_PASSWORD" | sudo -S -u $SETUP_USER bash <<EOF
 set -e
 git clone https://github.com/paulohefagundes/dotfiles.git ~/git/dotfiles
 ~/git/dotfiles/install

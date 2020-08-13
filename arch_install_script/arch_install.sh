@@ -1,6 +1,7 @@
 #!/usr/bin/bash
 
 set -e # TODO: remove me
+set -x
 
 SETUP_DEVICE=sda # TODO: support NVMe devices
 
