@@ -34,7 +34,7 @@
     ~/.config/systemd/user/sync-to-nas.service: .config/systemd/user/sync-to-nas.service
     ~/.config/systemd/user/sync-to-nas.timer: .config/systemd/user/sync-to-nas.timer
     # ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
-    ~/.emacs.d: .emacs.d
+    ~/.config/emacs: .config/emacs
     ~/.exports: .exports
     # ~/.extra: .extra
     ~/.functions: .functions
