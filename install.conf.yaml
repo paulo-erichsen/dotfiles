@@ -31,6 +31,7 @@
     ~/.config/powerline/themes/shell/default_leftonly.json: .config/powerline/themes/shell/default_leftonly.json
     ~/.config/systemd/user/borg.service: .config/systemd/user/borg.service
     ~/.config/systemd/user/borg.timer: .config/systemd/user/borg.timer
+    ~/.config/systemd/user/notify-desktop@.service: .config/systemd/user/notify-desktop@.service
     ~/.config/systemd/user/sync-to-nas.service: .config/systemd/user/sync-to-nas.service
     ~/.config/systemd/user/sync-to-nas.timer: .config/systemd/user/sync-to-nas.timer
     # ~/.config/qBittorrent/qBittorrent.conf: .config/qBittorrent/qBittorrent.conf
