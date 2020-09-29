@@ -1,0 +1,16 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- link:
+    /etc/pacman.d/hooks/reflector-mirror-update.hook:
+      if: 'command -v reflector'
+      path: etc/pacman.d/hooks/reflector-mirror-update.hook
+
+- shell:
+    # reflector.service does not like the symlink, so we copy the conf
+    - |
+      if command -v reflector > /dev/null; then
+          cp etc/xdg/reflector/reflector.conf /etc/xdg/reflector/reflector.conf
+      fi
