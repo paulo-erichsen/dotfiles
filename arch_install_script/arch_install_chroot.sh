@@ -46,8 +46,7 @@ cat > /efi/loader/loader.conf <<EOF
 default arch
 EOF
 
-# TODO: pass SETUP_DEVICE variable instead of hard-coding sda2
-SETUP_DISK_UUID=$(blkid -s UUID -o value /dev/sda2)
+SETUP_DISK_UUID=$(blkid -s UUID -o value /dev/disk/by-partlabel/root)
 cat > /efi/loader/entries/arch.conf <<EOF
 title  arch linux
 linux  /arch/vmlinuz-linux
