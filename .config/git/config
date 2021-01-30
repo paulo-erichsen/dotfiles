@@ -38,10 +38,13 @@
 		    for D in $(find $HOME/git -maxdepth 1 -mindepth 1 -type d | sort); do \
 		      [ ! -d $D/.git/refs/remotes ] && continue; \
 		      cd $D; \
-		      echo \"$(tput setaf 6)>>> $(git remote -v | grep origin | head -n1 | awk '{print $2}') - $(git rev-parse --abbrev-ref HEAD)$(tput sgr0)\"; \
-		      git fetch --all --prune && git rebase --autostash; \
-		      git submodule update --init --recursive; \
-		      [ $(git log --oneline origin/master..upstream/master 2>/dev/null | wc -l) = 0 ] || echo \"$(tput setaf 1)*** origin/master..upstream/master out of sync$(tput sgr0)\"; \
+		      local remote=\"$(git remote -v | grep origin | head -n1 | awk '{print $2}')\"; \
+		      echo \"$(tput setaf 6)>>> ${D}/ - ${remote:-no remote} - $(git rev-parse --abbrev-ref HEAD)$(tput sgr0)\"; \
+		      if [ ! -z ${remote} ]; then \
+			git fetch --all --prune && git rebase --autostash; \
+			git submodule update --init --recursive; \
+			[ $(git log --oneline origin/master..upstream/master 2>/dev/null | wc -l) = 0 ] || echo \"$(tput setaf 1)*** origin/master..upstream/master out of sync$(tput sgr0)\"; \
+		      fi; \
 		      echo; \
 		   done; \
 	     }; f"

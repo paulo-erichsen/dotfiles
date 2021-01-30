@@ -55,6 +55,7 @@ alias xml='xmllint --format -' # echo '<body><value name="abc"></value></body>' 
 # dev aliases
 alias clang-format-all='clang-format -i *.{C,c,cc,cxx,cpp,c++,H,h,hh,hxx,hpp,h++}' # format all c/c++ files in the current dir in place
 alias todo='rg TODO' # greps for TODO in source code - requires ripgrep: https://github.com/BurntSushi/ripgrep
+alias ss_ports_in_use='sudo ss --listening --numeric --tcp --udp --processes'
 
 # systemctl aliases
 alias systemctl_list_services='systemctl list-unit-files --type=service'
@@ -68,5 +69,5 @@ if command -v openvpn &> /dev/null; then
     alias vpn_strong='sudo openvpn --config /etc/openvpn/client/pia-strong/US\ Seattle.ovpn --ca /etc/openvpn/client/pia-strong/ca.rsa.4096.crt --crl-verify /etc/openvpn/client/pia-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/pia_login.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
     alias vpn='vpn_iptables_up && vpn_strong'
     alias vpn_brisbane='sudo openvpn --config /etc/openvpn/client/opengear-brisbane.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
-    alias vpn_sandy='sudo openvpn --config /etc/openvpn/client/opengear-sandy.conf --auth-user-pass /etc/openvpn/client/sandy_login.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
+    alias vpn_sandy='sudo openconnect --authgroup=global_vpn --user=pfagunde vpn-us.digi.com'
 fi
