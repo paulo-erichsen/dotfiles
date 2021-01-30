@@ -9,7 +9,7 @@
 # this script is my own way to install but be warned that it WILL become outdated
 #
 # configures the following:
-# - initramfs: dracut
+# - initramfs: dracut or mkinitcpio
 # - kernel: linux
 # - boot loader: systemd-boot
 # - networking: systemd-resolved + systemd-networkd
@@ -69,7 +69,7 @@ if [ "$SETUP_INITRAMFS_DRACUT" = true ]; then
     sudo -u $SETUP_USER paru -S --noconfirm dracut dracut-hook
 else
     pacman -S --noconfirm mkinitcpio
-    sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt filesystems fsck)/' /etc/mkinitcpio.conf
+    sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)/' /etc/mkinitcpio.conf
 fi
 
 # install linux
@@ -99,7 +99,7 @@ title  arch linux
 linux  /arch/vmlinuz-linux
 initrd /arch/$SETUP_CPU_UCODE.img
 initrd /arch/initramfs-linux.img
-options rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rw
+options rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw
 EOF
 
 sudo -u $SETUP_USER paru -S --noconfirm systemd-boot-pacman-hook

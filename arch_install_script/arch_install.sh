@@ -30,21 +30,27 @@ parted $SETUP_DEVICE --align optimal \
        mkpart ESP fat32 1MiB 1000MiB \
        set 1 esp on \
        mkpart root 1000MiB 100%
-
-# TODO: maybe add LVM support?
-
-# encrypt partition: LUKS on a partition
-# https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LUKS_on_a_partition
+# encrypt partition: LVM on LUKS
+# https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system#LVM_on_LUKS
 echo "encrypting disk: /dev/disk/by-partlabel/root"
 cryptsetup -y -v luksFormat --type luks2 /dev/disk/by-partlabel/root
 cryptsetup open /dev/disk/by-partlabel/root cryptroot
 
+# setup lvm
+pvcreate /dev/mapper/cryptroot
+vgcreate vg0 /dev/mapper/cryptroot
+lvcreate -L 32G vg0 -n root
+lvcreate -l 100%FREE vg0 -n home
+
 # format the partitions
 mkfs.fat -F32 /dev/disk/by-partlabel/ESP
-mkfs.ext4 /dev/mapper/cryptroot
+mkfs.ext4 /dev/vg0/root
+mkfs.ext4 /dev/vg0/home
 
 # mount partitions
-mount /dev/mapper/cryptroot /mnt
+mount /dev/vg0/root /mnt
+mkdir /mnt/home
+mount /dev/vg0/home /mnt/home
 # https://wiki.archlinux.org/index.php/EFI_system_partition#Using_bind_mount
 mkdir /mnt/efi /mnt/boot
 mount /dev/disk/by-partlabel/ESP /mnt/efi
@@ -57,6 +63,7 @@ pacstrap /mnt \
          binutils \
          fakeroot \
          git \
+         lvm2 \
          make \
          patch \
          sudo
@@ -78,5 +85,6 @@ mv /etc/resolv.conf /mnt/etc/resolv.conf
 
 # exit
 umount -R /mnt
+lvchange --activate n vg0
 cryptsetup close cryptroot
 systemctl reboot
