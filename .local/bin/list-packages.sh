@@ -21,6 +21,8 @@ if command -v apt-mark &> /dev/null; then
     comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u) > "$PKG_LIST_PATH"/apt.txt
 fi
 
+# TODO: add flatpak
+
 # snap
 if command -v snap &> /dev/null; then
     snap list | grep -Ev canonical > "$PKG_LIST_PATH/snap.txt"

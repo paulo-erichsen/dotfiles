@@ -7,14 +7,13 @@ readonly PKG_LIST_PATH=$HOME/.pkglists
 if command -v pacman &> /dev/null; then
     sudo pacman -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-official.txt"
 
-    if ! command -v yay &> /dev/null; then
-        mkdir -p "$HOME/git"
-        git clone https://aur.archlinux.org/yay.git "$HOME/git/yay"
-        cd "$HOME/git/yay" || exit 1
-        makepkg -sri --needed --noconfirm
+    if ! command -v paru &> /dev/null; then
+        tmp_dir="/tmp/paru-bin-aur"
+        [ ! -d "${tmp_dir}" ] && git clone https://aur.archlinux.org/paru-bin.git "${tmp_dir}"
+        (cd "${tmp_dir}" && makepkg -sri --needed --noconfirm)
     fi
 
-    yay -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-aur.txt"
+    paru -S --needed --noconfirm - < "$PKG_LIST_PATH/arch-aur.txt"
 fi
 
 # apt
@@ -24,6 +23,8 @@ fi
 
 # homebrew
 # brew, brew cask
+
+# flatpak
 
 # snap
 

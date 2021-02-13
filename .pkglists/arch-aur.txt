@@ -1,3 +1,4 @@
+pandoc-bin
+paru-bin
 powerline-fonts-git
-slack-desktop
-yay
+shellcheck-bin
