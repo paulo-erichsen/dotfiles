@@ -30,6 +30,16 @@ SETUP_USER=paulo
 SETUP_USER_PASSWORD=default
 SETUP_ROOT_PASSWORD=default
 SETUP_INITRAMFS_DRACUT=true # if this is not "true", then mkinitcpio is assumed
+SETUP_SCHEME=btrfs-on-luks
+
+### read command line params
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -s|--scheme) SETUP_SCHEME="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 ### users
 useradd --create-home --shell /bin/bash $SETUP_USER
@@ -69,7 +79,12 @@ if [ "$SETUP_INITRAMFS_DRACUT" = true ]; then
     sudo -u $SETUP_USER paru -S --noconfirm dracut dracut-hook
 else
     pacman -S --noconfirm mkinitcpio
-    sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)/' /etc/mkinitcpio.conf
+    if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
+        sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt sd-lvm2 filesystems fsck)/' /etc/mkinitcpio.conf
+    elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
+        sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/' /etc/mkinitcpio.conf
+        # NOTE: maybe add BINARIES=(/usr/bin/btrfs)
+    fi
 fi
 
 # install linux
@@ -94,12 +109,17 @@ default arch
 EOF
 
 SETUP_DISK_UUID=$(blkid -s UUID -o value /dev/disk/by-partlabel/root)
+if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
+    KERNEL_PARAMETERS="rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
+elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
+    KERNEL_PARAMETERS="rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
+fi
 cat > /efi/loader/entries/arch.conf <<EOF
 title  arch linux
 linux  /arch/vmlinuz-linux
 initrd /arch/$SETUP_CPU_UCODE.img
 initrd /arch/initramfs-linux.img
-options rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw
+options $KERNEL_PARAMETERS
 EOF
 
 sudo -u $SETUP_USER paru -S --noconfirm systemd-boot-pacman-hook
@@ -121,6 +141,10 @@ sed -i 's/swapfc_enabled=0/swapfc_enabled=1/' /etc/systemd/swap.conf
 sed -i 's/swapfc_force_preallocated=0/swapfc_force_preallocated=1/' /etc/systemd/swap.conf
 systemctl enable systemd-swap.service
 
+# TODO: setup snapper if SETUP_SCHEME == btrfs-on-luks
+#  - https://www.reddit.com/r/archlinux/comments/fkcamq/noob_btrfs_subvolume_layout_help/fkt6wqs/?context=3
+#  - https://ramsdenj.com/2016/04/05/using-btrfs-for-easy-backup-and-rollback.html#snapshots
+
 ### user specific config
 # install reflector first to allow fast package updates and downloads
 pacman -S --noconfirm reflector
@@ -137,6 +161,11 @@ reflector \
 # upgrade the system
 pacman -Syu --noconfirm
 
+# TODO: detect gpu amd/nvidia/intel and install appropriate drivers
+# amd: xf86-video-amdgpu
+# nvidia: nvidia
+# intel: xf86-video-intel
+
 # destkop environment: gnome (minimal)
 pacman -S --noconfirm --needed \
        emacs-nox \
@@ -146,8 +175,6 @@ pacman -S --noconfirm --needed \
        gnome-terminal \
        nautilus
 systemctl enable gdm.service # gnome display manager
-
-# TODO: detect gpu amd/nvidia and install appropriate drivers
 
 # install dotfiles, and packages it lists
 echo "installing dotfiles and packages for user: $SETUP_USER"

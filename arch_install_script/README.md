@@ -10,7 +10,8 @@ even though I've automated these, it is recommended that you follow the Arch Lin
 
 ### if using Virtual Box
 
-- create a disk of at least 10 GB
+- create a disk of at least 40 GB
+- settings > system > motherboard > 8GB
 - settings > system > Enable EFI
 - settings > storage > select SATA drive > check Solid State Drive in attributes (if the host machine also uses SSD)
 - boot machine, select optical drives > path to archlinux-*.iso
