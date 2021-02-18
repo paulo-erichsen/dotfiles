@@ -166,14 +166,31 @@ pacman -Syu --noconfirm
 # nvidia: nvidia
 # intel: xf86-video-intel
 
-# destkop environment: gnome (minimal)
+# sound: pipewire-pulse
+# NOTE: install pipewire first such that when we install the desktop environment below, it won't try to install pulseaudio
+pacman -S --noconfirm --needed \
+       pipewire \
+       pipewire-pulse \
+       gst-plugin-pipewire
+
+# destkop environment: gnome (minimal) + utilities
+# editor: emacs-nox
 pacman -S --noconfirm --needed \
        emacs-nox \
+       eog \
+       evince \
+       file-roller \
        gdm \
+       gedit \
+       gnome-calculator \
+       gnome-clocks \
        gnome-control-center \
        gnome-desktop \
+       gnome-screenshot \
+       gnome-system-monitor \
        gnome-terminal \
-       nautilus
+       nautilus \
+       simple-scan
 systemctl enable gdm.service # gnome display manager
 
 # install dotfiles, and packages it lists
