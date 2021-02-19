@@ -18,3 +18,4 @@ rsync
 syncthing
 tcpdump
 tree
+which
