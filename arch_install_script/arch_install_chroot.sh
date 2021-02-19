@@ -122,6 +122,14 @@ initrd /arch/initramfs-linux.img
 options $KERNEL_PARAMETERS
 EOF
 
+cat > /efi/loader/entries/arch-fallback.conf <<EOF
+title  arch linux (fallback)
+linux  /arch/vmlinuz-linux
+initrd /arch/$SETUP_CPU_UCODE.img
+initrd /arch/initramfs-linux-fallback.img
+options $KERNEL_PARAMETERS
+EOF
+
 sudo -u $SETUP_USER paru -S --noconfirm systemd-boot-pacman-hook
 
 ### network configuration: systemd-resolved + systemd-networkd (dhcp)
