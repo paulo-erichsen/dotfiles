@@ -18,9 +18,8 @@
 set -e
 set -x
 
-SETUP_DEVICE=/dev/sda
+SETUP_DEVICE=/dev/nvme0n1 # /dev/sda
 SETUP_SCHEME=btrfs-on-luks # allowed values: lvm-on-luks, btrfs-on-luks
-# SETUP_DEVICE=/dev/nvme0n1
 
 # validate params
 if [[ ! "$SETUP_SCHEME" =~ ^(lvm-on-luks|btrfs-on-luks)$ ]]; then
@@ -36,8 +35,8 @@ fi
 timedatectl set-ntp true
 
 # partition the disks
+parted $SETUP_DEVICE mklabel gpt
 parted $SETUP_DEVICE --align optimal \
-       mklabel gpt \
        mkpart ESP fat32 1MiB 1000MiB \
        set 1 esp on \
        mkpart root 1000MiB 100%
