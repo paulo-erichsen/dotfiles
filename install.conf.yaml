@@ -10,7 +10,7 @@
   # TODO: find out if we can make the file below a symlink. It didn't work when I tried with steam under flatpak
   - |
     if [ -d "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/" ]; then
-        cp ./steam/csgo/autoexec.cfg "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/"
+        cp ./steam/csgo/autoexec.cfg ./steam/csgo/practice.cfg "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/"
     fi
 
 - link:
