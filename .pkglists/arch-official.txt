@@ -2,6 +2,7 @@ arc-gtk-theme
 bash-completion
 curl
 docker
+docker-compose
 emacs-nox
 firefox
 git
