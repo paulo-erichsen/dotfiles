@@ -2,7 +2,7 @@
 Description=Run borg
 
 [Timer]
-OnCalendar=daily
+OnCalendar=Mon..Fri *-*-* 10:30:00
 
 [Install]
 WantedBy=timers.target
