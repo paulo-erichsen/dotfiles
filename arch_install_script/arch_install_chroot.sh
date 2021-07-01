@@ -178,13 +178,12 @@ pacman -Syu --noconfirm
 # NOTE: install pipewire first such that when we install the desktop environment below, it won't try to install pulseaudio
 pacman -S --noconfirm --needed \
        pipewire \
+       pipewire-alsa \
        pipewire-pulse \
        gst-plugin-pipewire
 
-# destkop environment: gnome (minimal) + utilities
-# editor: emacs-nox
+# desktop environment: gnome (minimal) + utilities
 pacman -S --noconfirm --needed \
-       emacs-nox \
        eog \
        evince \
        file-roller \
@@ -197,26 +196,10 @@ pacman -S --noconfirm --needed \
        gnome-screenshot \
        gnome-system-monitor \
        gnome-terminal \
+       pavucontrol \
        nautilus \
        simple-scan
 systemctl enable gdm.service # gnome display manager
-
-# install dotfiles, and packages it lists
-echo "installing dotfiles and packages for user: $SETUP_USER"
-echo "$SETUP_USER_PASSWORD" | sudo -S -u $SETUP_USER bash <<EOF
-set -e
-git clone https://github.com/paulohefagundes/dotfiles.git ~/git/dotfiles
-~/git/dotfiles/install
-~/git/dotfiles/.local/bin/install-packages.sh
-
-# enable a couple of services for the user
-mkdir -p ~/.config/systemd/user/default.target.wants
-# systemctl --user enable emacs.service
-ln -s /usr/lib/systemd/user/emacs.service  ~/.config/systemd/user/default.target.wants/emacs.service
-
-# systemctl --user enable syncthing.service
-ln -s  /usr/lib/systemd/user/syncthing.service ~/.config/systemd/user/default.target.wants/syncthing.service
-EOF
 
 # lock the root password and expire the user's password
 echo 'locking the root account'
