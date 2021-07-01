@@ -15,7 +15,7 @@
 # - networking: systemd-resolved + systemd-networkd
 # - swap file: systemd-swap (note: not affiliated with systemd project)
 # - desktop environment: gnome
-# - user: adds a local user
+# - user: adds an aur and a local user
 # - aur helper: paru
 #########################################################################################
 
@@ -27,6 +27,7 @@ set -x
 SETUP_TIMEZONE=America/Denver
 SETUP_HOSTNAME=arch-pc
 SETUP_USER=paulo
+SETUP_AUR_USER=aur_builder
 SETUP_USER_PASSWORD=default
 SETUP_ROOT_PASSWORD=default
 SETUP_INITRAMFS_DRACUT=true # if this is not "true", then mkinitcpio is assumed
@@ -43,20 +44,23 @@ done
 
 ### users
 useradd --create-home --shell /bin/bash $SETUP_USER
+useradd --create-home --shell /bin/bash -g wheel $SETUP_AUR_USER
 # change passwords
 echo "$SETUP_USER:$SETUP_USER_PASSWORD" | chpasswd
 echo "root:$SETUP_ROOT_PASSWORD" | chpasswd
-# add user to sudoers
+# add users to sudoers
+AUR_SUDOERS_FILE=/etc/sudoers.d/$SETUP_AUR_USER-allow-to-sudo-pacman
 echo "$SETUP_USER ALL=(ALL) ALL" >> /etc/sudoers
-# check the sudoers file since we didn't edit with visudo
+echo 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman' > $AUR_SUDOERS_FILE
+chmod 0440 $AUR_SUDOERS_FILE
+# check the sudoers files since we didn't edit with visudo
 visudo --check
+visudo --check --file $AUR_SUDOERS_FILE
 
 ### aur helper: paru
-echo "$SETUP_USER_PASSWORD" | sudo -S -u $SETUP_USER bash <<EOF
+sudo -u $SETUP_AUR_USER bash <<EOF
 git clone https://aur.archlinux.org/paru-bin.git /tmp/paru-bin
 cd /tmp/paru-bin
-echo "please enter the following password when prompted: $SETUP_USER_PASSWORD"
-# TODO: find out if it is possible to run makepkg without the sudo password prompt
 makepkg -sri --needed --noconfirm
 EOF
 
@@ -76,7 +80,7 @@ EOF
 
 ### initramfs
 if [ "$SETUP_INITRAMFS_DRACUT" = true ]; then
-    sudo -u $SETUP_USER paru -S --noconfirm dracut dracut-hook
+    sudo -u $SETUP_AUR_USER paru -S --noconfirm dracut dracut-hook
 else
     pacman -S --noconfirm mkinitcpio
     if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
@@ -130,7 +134,7 @@ initrd /arch/initramfs-linux-fallback.img
 options $KERNEL_PARAMETERS
 EOF
 
-sudo -u $SETUP_USER paru -S --noconfirm systemd-boot-pacman-hook
+sudo -u $SETUP_AUR_USER paru -S --noconfirm systemd-boot-pacman-hook
 
 ### network configuration: systemd-resolved + systemd-networkd (dhcp)
 cat > /etc/systemd/network/20-wired.network <<EOF
