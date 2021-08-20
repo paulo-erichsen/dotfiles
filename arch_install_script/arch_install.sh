@@ -65,7 +65,7 @@ if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
     mkdir /mnt/home
     mount /dev/vg0/home /mnt/home
 elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
-    EXTRA_INSTALL_PKGS=btrfs-progs
+    EXTRA_INSTALL_PKGS="btrfs-progs snapper"
 
     # format the partition as btrfs
     mkfs.btrfs --label system /dev/mapper/cryptroot
@@ -87,6 +87,8 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     mount -o $mount_opts,subvol=@pkg       /dev/mapper/cryptroot /mnt/var/cache/pacman/pkg
     mount -o $mount_opts,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
     mount -o $mount_opts,subvol=/          /dev/mapper/cryptroot /mnt/btrfs
+
+    chattr +C /mnt/var/log # disable CoW on @var_log
 fi
 
 # https://wiki.archlinux.org/index.php/EFI_system_partition#Using_bind_mount

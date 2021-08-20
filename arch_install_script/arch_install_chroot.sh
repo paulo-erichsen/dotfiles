@@ -153,9 +153,23 @@ sed -i 's/swapfc_enabled=0/swapfc_enabled=1/' /etc/systemd/swap.conf
 sed -i 's/swapfc_force_preallocated=0/swapfc_force_preallocated=1/' /etc/systemd/swap.conf
 systemctl enable systemd-swap.service
 
-# TODO: setup snapper if SETUP_SCHEME == btrfs-on-luks
-#  - https://www.reddit.com/r/archlinux/comments/fkcamq/noob_btrfs_subvolume_layout_help/fkt6wqs/?context=3
-#  - https://ramsdenj.com/2016/04/05/using-btrfs-for-easy-backup-and-rollback.html#snapshots
+# systemd-oomd
+systemctl enable systemd-oomd.service
+
+# snapper - btrfs snapshots
+if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
+    # TODO: setup snapper with a "live" folder for snapshots
+    # - https://www.reddit.com/r/archlinux/comments/fkcamq/noob_btrfs_subvolume_layout_help/fkt6wqs/?context=3
+    umount /.snapshots
+    rm -r /.snapshots
+    snapper --no-dbus -c root create-config /
+    btrfs subvolume delete /.snapshots
+    mkdir /.snapshots
+    mount /.snapshots
+    chmod 750 /.snapshots
+    systemctl enable snapper-timeline.timer
+    systemctl enable snapper-cleanup.timer
+fi
 
 ### user specific config
 # install reflector first to allow fast package updates and downloads
