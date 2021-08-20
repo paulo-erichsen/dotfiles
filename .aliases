@@ -66,8 +66,9 @@ alias backup='systemctl --user start backup.target'
 if command -v openvpn &> /dev/null; then
     alias vpn_iptables_up='sudo iptables-restore < /etc/iptables/vpn.rules'
     alias vpn_iptables_down='sudo iptables-restore < /etc/iptables/empty.rules'
-    alias vpn_strong='sudo openvpn --config /etc/openvpn/client/pia-strong/US\ Seattle.ovpn --ca /etc/openvpn/client/pia-strong/ca.rsa.4096.crt --crl-verify /etc/openvpn/client/pia-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/pia_login.conf --config /etc/openvpn/scripts/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
+    alias vpn_strong='sudo openvpn --config /etc/openvpn/client/pia-strong/us_seattle.ovpn --ca /etc/openvpn/client/pia-strong/ca.rsa.4096.crt --crl-verify /etc/openvpn/client/pia-strong/crl.rsa.4096.pem --auth-user-pass /etc/openvpn/client/pia_login.conf --keepalive 10 30 --pull-filter ignore "auth-token" --config /usr/share/doc/openvpn/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
     alias vpn='vpn_iptables_up && vpn_strong'
     alias vpn_brisbane='sudo openvpn --config /etc/openvpn/client/opengear-brisbane.conf --config /usr/share/doc/openvpn/update-systemd-resolved.conf --dhcp-option DOMAIN-ROUTE .'
-    alias vpn_sandy='sudo openconnect --authgroup=global_vpn --user=pfagunde vpn-us.digi.com'
+    # store work password with this command: secret-tool store --label 'digi okta password' password digi_okta_pwd
+    alias vpn_sandy='echo $(secret-tool lookup password digi_okta_pwd) | sudo openconnect --authgroup=global_vpn --user=pfagunde --passwd-on-stdin vpn-us.digi.com'
 fi

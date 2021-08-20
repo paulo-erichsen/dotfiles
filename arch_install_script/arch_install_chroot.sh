@@ -50,7 +50,7 @@ echo "$SETUP_USER:$SETUP_USER_PASSWORD" | chpasswd
 echo "root:$SETUP_ROOT_PASSWORD" | chpasswd
 # add users to sudoers
 AUR_SUDOERS_FILE=/etc/sudoers.d/$SETUP_AUR_USER-allow-to-sudo-pacman
-echo "$SETUP_USER ALL=(ALL) ALL" >> /etc/sudoers
+sed -i "/^root ALL=(ALL) ALL/a $SETUP_USER ALL=(ALL) ALL" /etc/sudoers
 echo 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman' > $AUR_SUDOERS_FILE
 chmod 0440 $AUR_SUDOERS_FILE
 # check the sudoers files since we didn't edit with visudo

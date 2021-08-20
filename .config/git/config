@@ -79,9 +79,15 @@
 [core]
 	editor = emacsclient -nw
 	autocrlf = input
+[credential]
+	helper = libsecret # osxkeychain
+[diff]
+	wsErrorHighlight = all
 [gc]
 	agressiveWindow = 150
 	auto = 0
+[init]
+	defaultBranch = main
 [log]
 	date = local
 [merge]
@@ -101,7 +107,3 @@
 	submodulesummary = 1
 [svn]
 	pushmergeinfo = true
-[credential]
-	helper = libsecret # osxkeychain
-[diff]
-	wsErrorHighlight = all
