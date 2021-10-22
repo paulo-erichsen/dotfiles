@@ -47,6 +47,7 @@ if [ ! -x /usr/bin/open ]; then
 fi
 alias ssh-keygen-mine='ssh-keygen -t rsa -b 16384'
 alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
+alias unpixel='for f in PXL_*; do [ -f "$f" ] && mv "$f" "$(echo "$f" | sed "s/^PXL_//")"; done'
 
 # parse input into pretty strings
 alias json='python -mjson.tool' # echo '{"hello": { "world": "test1", "there": "test2" }}' | json
@@ -61,6 +62,8 @@ alias ss_ports_in_use='sudo ss --listening --numeric --tcp --udp --processes'
 alias systemctl_list_services='systemctl list-unit-files --type=service'
 alias systemctl_reload='sudo systemctl daemon-reload'
 alias backup='systemctl --user start backup.target'
+
+alias w='ssh workstation'
 
 # vpn
 if command -v openvpn &> /dev/null; then
