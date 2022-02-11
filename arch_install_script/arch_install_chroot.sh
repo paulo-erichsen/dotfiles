@@ -50,8 +50,8 @@ echo "$SETUP_USER:$SETUP_USER_PASSWORD" | chpasswd
 echo "root:$SETUP_ROOT_PASSWORD" | chpasswd
 # add users to sudoers
 AUR_SUDOERS_FILE=/etc/sudoers.d/$SETUP_AUR_USER-allow-to-sudo-pacman
-sed -i "/^root ALL=(ALL) ALL/a $SETUP_USER ALL=(ALL) ALL" /etc/sudoers
-echo 'aur_builder ALL=(ALL) NOPASSWD: /usr/bin/pacman' > $AUR_SUDOERS_FILE
+sed -i "/^root ALL=(ALL:ALL) ALL/a $SETUP_USER ALL=(ALL:ALL) ALL" /etc/sudoers
+echo 'aur_builder ALL=(ALL:ALL) NOPASSWD: /usr/bin/pacman' > $AUR_SUDOERS_FILE
 chmod 0440 $AUR_SUDOERS_FILE
 # check the sudoers files since we didn't edit with visudo
 visudo --check
@@ -158,8 +158,6 @@ systemctl enable systemd-oomd.service
 
 # snapper - btrfs snapshots
 if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
-    # TODO: setup snapper with a "live" folder for snapshots
-    # - https://www.reddit.com/r/archlinux/comments/fkcamq/noob_btrfs_subvolume_layout_help/fkt6wqs/?context=3
     umount /.snapshots
     rm -r /.snapshots
     snapper --no-dbus -c root create-config /
@@ -169,6 +167,11 @@ if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     chmod 750 /.snapshots
     systemctl enable snapper-timeline.timer
     systemctl enable snapper-cleanup.timer
+
+    # install a utility to rollback since "snapper rollback" won't work
+    # https://wiki.archlinux.org/title/snapper#Restoring_/_to_its_previous_snapshot
+    sudo -u $SETUP_AUR_USER paru -S --noconfirm snapper-rollback
+    sed -i 's/^\(mountpoint = \).*$/\1\/btrfs/' /etc/snapper-rollback.conf
 fi
 
 ### user specific config
@@ -224,5 +227,3 @@ echo 'locking the root account'
 passwd --lock root
 echo "expiring the password for user: $SETUP_USER"
 passwd --expire $SETUP_USER # expiring allows the user to reset their password when they login
-# for some reason I wasn't able to change the expired password from the terminal without this line
-echo "password  include   system-local-login" >> /etc/pam.d/login

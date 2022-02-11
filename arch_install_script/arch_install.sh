@@ -5,8 +5,9 @@
 #
 # arch installation guide: https://wiki.archlinux.org/index.php/installation_guide
 #
-# please follow the arch linux installation guide. this script is my own way to install
-# but be warned that it WILL become outdated
+# please follow the arch linux installation guide.
+# this script is my own way to install but be warned that it WILL become outdated.
+# use at your own risk.
 #
 # installs arch linux using the following:
 # - disks:
@@ -40,6 +41,7 @@ parted $SETUP_DEVICE --align optimal \
        mkpart ESP fat32 1MiB 1000MiB \
        set 1 esp on \
        mkpart root 1000MiB 100%
+sleep 1
 
 # encrypt partition
 # https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system
@@ -74,7 +76,7 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     # create the subvolumes
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
-    btrfs subvolume create /mnt/@var_log
+    btrfs subvolume create /mnt/@log
     btrfs subvolume create /mnt/@pkg
     btrfs subvolume create /mnt/@snapshots
 
@@ -83,12 +85,12 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     mount_opts=noatime,compress=zstd,x-mount.mkdir
     mount -o $mount_opts,subvol=@          /dev/mapper/cryptroot /mnt
     mount -o $mount_opts,subvol=@home      /dev/mapper/cryptroot /mnt/home
-    mount -o $mount_opts,subvol=@var_log   /dev/mapper/cryptroot /mnt/var/log
+    mount -o $mount_opts,subvol=@log       /dev/mapper/cryptroot /mnt/var/log
     mount -o $mount_opts,subvol=@pkg       /dev/mapper/cryptroot /mnt/var/cache/pacman/pkg
     mount -o $mount_opts,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
     mount -o $mount_opts,subvol=/          /dev/mapper/cryptroot /mnt/btrfs
 
-    chattr +C /mnt/var/log # disable CoW on @var_log
+    chattr +C /mnt/var/log # disable CoW on @log
 fi
 
 # https://wiki.archlinux.org/index.php/EFI_system_partition#Using_bind_mount
