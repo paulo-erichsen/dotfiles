@@ -1,5 +1,5 @@
 [user]
-	name = Paulo Fagundes
+	name = Paulo Erichsen
 	useConfigOnly = true
 
 [alias]
@@ -99,6 +99,7 @@
 	packSizeLimit = 100m
 [pull]
 	rebase = true
+	twohead = ort
 [push]
 	default = simple
 [rebase]

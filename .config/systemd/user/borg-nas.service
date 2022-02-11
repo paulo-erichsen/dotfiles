@@ -13,6 +13,7 @@ ExecStart=/usr/bin/borg create \
     ::{now} \
     /home/paulo/Sync \
     /mnt/data/my_files \
+    /mnt/data/pictures \
     /mnt/data/games \
     /mnt/data/music \
     /mnt/data/books

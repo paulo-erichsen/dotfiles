@@ -11,7 +11,8 @@ Environment=BORG_RSH="ssh -i /home/paulo/.ssh/id_rsa_borg"
 ExecStart=/usr/bin/borg create \
     --stats \
     ::{now} \
-    /mnt/data/my_files
+    /mnt/data/my_files \
+    /mnt/data/pictures
 
 ExecStartPost=/usr/bin/borg prune \
     --verbose \
