@@ -13,7 +13,7 @@
 # - kernel: linux
 # - boot loader: systemd-boot
 # - networking: systemd-resolved + systemd-networkd
-# - swap file: systemd-swap (note: not affiliated with systemd project)
+# - zram
 # - desktop environment: gnome
 # - user: adds an aur and a local user
 # - aur helper: paru
@@ -91,7 +91,7 @@ else
     fi
 fi
 
-# install linux
+# install the kernel
 pacman -S --noconfirm linux
 
 ### boot loader: systemd-boot
@@ -114,9 +114,9 @@ EOF
 
 SETUP_DISK_UUID=$(blkid -s UUID -o value /dev/disk/by-partlabel/root)
 if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
-    KERNEL_PARAMETERS="rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
+    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
 elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
-    KERNEL_PARAMETERS="rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
+    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
 fi
 cat > /efi/loader/entries/arch.conf <<EOF
 title  arch linux
@@ -147,14 +147,16 @@ EOF
 systemctl enable systemd-resolved.service
 systemctl enable systemd-networkd.service
 
-# systemd-swap
-pacman -S --noconfirm systemd-swap
-sed -i 's/swapfc_enabled=0/swapfc_enabled=1/' /etc/systemd/swap.conf
-sed -i 's/swapfc_force_preallocated=0/swapfc_force_preallocated=1/' /etc/systemd/swap.conf
-systemctl enable systemd-swap.service
-
 # systemd-oomd
 systemctl enable systemd-oomd.service
+
+# zram
+pacman -S --noconfirm zram-generator
+cat > /etc/systemd/zram-generator.conf <<EOF
+# This section describes the settings for /dev/zram0
+[zram0]
+zram-size = min(ram / 2, 4096)
+EOF
 
 # snapper - btrfs snapshots
 if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
