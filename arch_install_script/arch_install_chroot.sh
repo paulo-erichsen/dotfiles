@@ -22,8 +22,6 @@
 set -e
 set -x
 
-# TODO: bounce out of this script if it wasn't called by arch_install.sh
-
 SETUP_TIMEZONE=America/Denver
 SETUP_HOSTNAME=arch-pc
 SETUP_USER=paulo
@@ -114,7 +112,11 @@ else
     if ! pacman -S --noconfirm zfs-linux; then
         pacman -S --noconfirm linux linux-headers zfs-dkms
     fi
-    systemctl enable zfs.target zfs-import-cache.service zfs-mount.service zfs-import.target
+    systemctl enable \
+              zfs.target \
+              zfs-import-cache.service \
+              zfs-mount.service \
+              zfs-import.target
 fi
 
 ### boot loader: systemd-boot
@@ -159,7 +161,7 @@ initrd /arch/initramfs-linux-fallback.img
 options $KERNEL_PARAMETERS
 EOF
 
-sudo -u $SETUP_AUR_USER paru -S --noconfirm systemd-boot-pacman-hook
+systemctl enable systemd-boot-update.service
 
 ### network configuration: systemd-resolved + systemd-networkd (dhcp)
 cat > /etc/systemd/network/20-wired.network <<EOF
@@ -169,8 +171,9 @@ Name=en*
 [Network]
 DHCP=ipv4
 EOF
-systemctl enable systemd-resolved.service
-systemctl enable systemd-networkd.service
+systemctl enable \
+          systemd-resolved.service \
+          systemd-networkd.service
 
 # systemd-oomd
 systemctl enable systemd-oomd.service
@@ -192,8 +195,10 @@ if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     mkdir /.snapshots
     mount /.snapshots
     chmod 750 /.snapshots
-    systemctl enable snapper-timeline.timer
-    systemctl enable snapper-cleanup.timer
+    systemctl enable \
+              snapper-boot.timer \
+              snapper-timeline.timer \
+              snapper-cleanup.timer
 
     # install a utility to rollback since "snapper rollback" won't work
     # https://wiki.archlinux.org/title/snapper#Restoring_/_to_its_previous_snapshot
@@ -230,7 +235,7 @@ pacman -S --noconfirm --needed \
        pipewire-pulse \
        gst-plugin-pipewire
 
-# desktop environment: gnome (minimal) + utilities
+# desktop environment: gnome (minimal) + basic utilities
 pacman -S --noconfirm --needed \
        eog \
        evince \

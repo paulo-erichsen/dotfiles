@@ -11,7 +11,7 @@ even though I've automated these, it is recommended that you follow the Arch Lin
 ### if using Virtual Box
 
 - create a disk of at least 40 GB
-- settings > system > motherboard > 8GB
+- settings > system > motherboard > 8GB of RAM
 - settings > system > Enable EFI
 - settings > storage > select SATA drive > check Solid State Drive in attributes (if the host machine also uses SSD)
 - boot machine, select optical drives > path to archlinux-*.iso
@@ -24,16 +24,15 @@ even though I've automated these, it is recommended that you follow the Arch Lin
 
 ```
 # download through curl
-curl -O https://raw.githubusercontent.com/paulohefagundes/dotfiles/master/arch_install_script/arch_install.sh
-curl -O https://raw.githubusercontent.com/paulohefagundes/dotfiles/master/arch_install_script/arch_install_chroot.sh
+curl -O https://raw.githubusercontent.com/paulo-erichsen/dotfiles/master/arch_install_script/arch_install.sh
+curl -O https://raw.githubusercontent.com/paulo-erichsen/dotfiles/master/arch_install_script/arch_install_chroot.sh
 chmod +x arch_install*.sh
 
 # then edit the script if you need to tweak anything
 
-# run the script
+# run the script from within archiso
 ./arch_install.sh
 ```
-
 
 [Installation Guide]: https://wiki.archlinux.org/index.php/Installation_guide
 [Download]: https://www.archlinux.org/download/

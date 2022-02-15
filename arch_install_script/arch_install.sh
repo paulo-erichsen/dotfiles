@@ -40,7 +40,7 @@ if [ "$SETUP_SCHEME" = "zfs" ]; then
         curl -s https://eoli3n.github.io/archzfs/init | bash
 
         if ! modprobe zfs; then
-            echo "ZFS module not loaded. Aborting..."
+            echo "ZFS module not loaded. Use build_zfs_archiso.sh to make an archiso with zfs modules. Aborting..."
             exit 1
         fi
     fi
@@ -144,7 +144,7 @@ elif [ "$SETUP_SCHEME" = "zfs" ]; then
     # configure the root system
     zpool set bootfs=zroot/ROOT/default zroot
     zpool set cachefile=/etc/zfs/zpool.cache zroot
-    zfs mount zroot/ROOT/default # manually import this since it uses canmount=noauto
+    zfs mount zroot/ROOT/default # manually mount this since it uses canmount=noauto
     zfs mount -a
     mkdir -p /mnt/etc/zfs/
     mv /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
@@ -172,10 +172,11 @@ pacstrap /mnt \
 # configure fstab
 genfstab -t PARTLABEL /mnt >> /mnt/etc/fstab
 sed -i 's,/mnt,,g' /mnt/etc/fstab # bind mount needs extra care
-# TODO: should I remove ^zroot/.* from fstab when using "zfs"?
 if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     sed -i 's;subvol=/\t;subvol=/,noauto\t;' /mnt/etc/fstab # don't automatically mount /btrfs
     sed -i 's;subvolid=[[:digit:]]\+,;;' /mnt/etc/fstab # remove subvolid= see also https://bugs.archlinux.org/task/65003 for a related bug
+elif [ "$SETUP_SCHEME" = "zfs" ]; then
+    sed -i '/^zroot/,+1d' /mnt/etc/fstab # remove zfs entries from fstab
 fi
 
 # configure arch in chroot
@@ -186,8 +187,7 @@ rm /mnt/root/arch_install_chroot.sh
 read -r -p "Press [Enter] to reboot: "
 
 # systemd-resolved: make /etc/resolv.conf point to the systemd DNS stub file
-ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-mv /etc/resolv.conf /mnt/etc/resolv.conf
+ln -sf /run/systemd/resolve/stub-resolv.conf /mnt/etc/resolv.conf
 
 # exit
 umount -R /mnt
