@@ -42,6 +42,11 @@ while [[ "$#" -gt 0 ]]; do
     shift
 done
 
+if [ "$SETUP_SCHEME" = "zfs" ] && [ "$SETUP_INITRAMFS_DRACUT" != "true" ]; then
+    echo "Operation not supported! zfs + mkinitcpio + systemd-boot has not been implemented here. Use dracut instead"
+    exit 1
+fi
+
 ### users
 useradd --create-home --shell /bin/bash $SETUP_USER
 useradd --create-home --shell /bin/bash -g wheel $SETUP_AUR_USER
@@ -88,11 +93,29 @@ else
     elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
         sed -i 's/^\(HOOKS=\).*$/\1(base systemd autodetect keyboard sd-vconsole modconf block sd-encrypt btrfs filesystems fsck)/' /etc/mkinitcpio.conf
         # NOTE: maybe add BINARIES=(/usr/bin/btrfs)
+    elif [ "$SETUP_SCHEME" = "zfs" ]; then
+        echo "OPERATION NOT SUPPORTED (native zfs encryption + mkinitcpio + systemd-boot)"
+        exit 1
     fi
 fi
 
 # install the kernel
-pacman -S --noconfirm linux
+if [ "$SETUP_SCHEME" != zfs ]; then
+    pacman -S --noconfirm linux
+else
+    # add [archzfs] repo before [core]
+    sed -i "/^\[core\]/i \[archzfs\]\nServer = http:\/\/archzfs.com/\$repo\/x86_64\n" /etc/pacman.conf
+    # import and sign the repo key
+    ARCHZFS_REPO_KEY=$(curl --fail --silent --location https://git.io/JsfVS)
+    pacman-key --recv-keys "$ARCHZFS_REPO_KEY"
+    pacman-key --lsign-key "$ARCHZFS_REPO_KEY"
+    pacman -Sy
+    # try to install zfs-linux. if that fails, fallback to dkms
+    if ! pacman -S --noconfirm zfs-linux; then
+        pacman -S --noconfirm linux linux-headers zfs-dkms
+    fi
+    systemctl enable zfs.target zfs-import-cache.service zfs-mount.service zfs-import.target
+fi
 
 ### boot loader: systemd-boot
 bootctl --esp-path /efi install
@@ -117,6 +140,8 @@ if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
     KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
 elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
+elif [ "$SETUP_SCHEME" = "zfs" ]; then
+    KERNEL_PARAMETERS="zswap.enabled=0 root=zfs:zroot/ROOT/default rw"
 fi
 cat > /efi/loader/entries/arch.conf <<EOF
 title  arch linux

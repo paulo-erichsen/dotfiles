@@ -12,7 +12,8 @@
 # installs arch linux using the following:
 # - disks:
 #   - GPT
-#   - dm-crypt: LUKS on a partition
+#   - filesystem: btrfs or lvm or zfs depending on $SETUP_SCHEME
+#   - dm-crypt: LUKS on a partition (if btrfs or lvm in $SETUP_SCHEME)
 #   - efi: /efi + /boot using bind mount
 #########################################################################################
 
@@ -20,16 +21,29 @@ set -e
 set -x
 
 SETUP_DEVICE=/dev/nvme0n1 # /dev/sda
-SETUP_SCHEME=btrfs-on-luks # allowed values: lvm-on-luks, btrfs-on-luks
+SETUP_SCHEME=btrfs-on-luks # allowed values: lvm-on-luks, btrfs-on-luks, zfs
+SETUP_ENCRYPTION_PASSWORD="SecretPassword!"
 
 # validate params
-if [[ ! "$SETUP_SCHEME" =~ ^(lvm-on-luks|btrfs-on-luks)$ ]]; then
+if [[ ! "$SETUP_SCHEME" =~ ^(lvm-on-luks|btrfs-on-luks|zfs)$ ]]; then
     echo "invalid SETUP_SCHEME: $SETUP_SCHEME"
     exit 1
 fi
 if [ ! -b $SETUP_DEVICE ]; then
     echo "device doesn't exist: $SETUP_DEVICE"
     exit 1
+fi
+
+if [ "$SETUP_SCHEME" = "zfs" ]; then
+    if ! modprobe zfs; then
+        echo "ZFS module not loaded. Attempting to install it"
+        curl -s https://eoli3n.github.io/archzfs/init | bash
+
+        if ! modprobe zfs; then
+            echo "ZFS module not loaded. Aborting..."
+            exit 1
+        fi
+    fi
 fi
 
 # update the system clock
@@ -43,11 +57,13 @@ parted $SETUP_DEVICE --align optimal \
        mkpart root 1000MiB 100%
 sleep 1
 
-# encrypt partition
-# https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system
-echo "encrypting disk: /dev/disk/by-partlabel/root"
-cryptsetup -y -v luksFormat --type luks2 /dev/disk/by-partlabel/root
-cryptsetup open /dev/disk/by-partlabel/root cryptroot
+if [[ "$SETUP_SCHEME" =~ ^(lvm-on-luks|btrfs-on-luks)$ ]]; then
+    # encrypt partition
+    # https://wiki.archlinux.org/index.php/Dm-crypt/Encrypting_an_entire_system
+    echo "encrypting disk: /dev/disk/by-partlabel/root"
+    echo -n "$SETUP_ENCRYPTION_PASSWORD" | cryptsetup -y -v luksFormat --type luks2 /dev/disk/by-partlabel/root -
+    echo -n "$SETUP_ENCRYPTION_PASSWORD" | cryptsetup open /dev/disk/by-partlabel/root cryptroot -
+fi
 
 if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
     EXTRA_INSTALL_PKGS=lvm2
@@ -91,6 +107,47 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     mount -o $mount_opts,subvol=/          /dev/mapper/cryptroot /mnt/btrfs
 
     chattr +C /mnt/var/log # disable CoW on @log
+elif [ "$SETUP_SCHEME" = "zfs" ]; then
+    # create the zpool
+    # NOTE: we can enable autotrim=on. but maybe just enable systemd timer for trimming?
+    echo -n "$SETUP_ENCRYPTION_PASSWORD" | \
+        zpool create -f -o ashift=12    \
+              -O acltype=posixacl       \
+              -O relatime=on            \
+              -O xattr=sa               \
+              -O dnodesize=auto         \
+              -O normalization=formD    \
+              -O mountpoint=none        \
+              -O canmount=off           \
+              -O devices=off            \
+              -O compression=zstd       \
+              -O encryption=aes-256-gcm \
+              -O keyformat=passphrase   \
+              -O keylocation=prompt     \
+              -R /mnt                   \
+              zroot /dev/disk/by-partlabel/root
+
+    # create the datasets
+    # TODO: should we create similar datasets as btrfs such as log and pacman_pkgs?
+    zfs create -o mountpoint=none zroot/data
+    zfs create -o mountpoint=none zroot/ROOT
+    zfs create -o mountpoint=/ -o canmount=noauto zroot/ROOT/default
+    zfs create -o mountpoint=/home zroot/data/home
+    zfs umount -a
+    rmdir /mnt/home
+
+    # export and import to validate our configuration
+    zpool export zroot
+    zpool import -d /dev/disk/by-partlabel/ -R /mnt zroot -N
+    echo -n "$SETUP_ENCRYPTION_PASSWORD" | zfs load-key zroot
+
+    # configure the root system
+    zpool set bootfs=zroot/ROOT/default zroot
+    zpool set cachefile=/etc/zfs/zpool.cache zroot
+    zfs mount zroot/ROOT/default # manually import this since it uses canmount=noauto
+    zfs mount -a
+    mkdir -p /mnt/etc/zfs/
+    mv /etc/zfs/zpool.cache /mnt/etc/zfs/zpool.cache
 fi
 
 # https://wiki.archlinux.org/index.php/EFI_system_partition#Using_bind_mount
@@ -104,6 +161,7 @@ mount --bind /mnt/efi/arch /mnt/boot
 pacstrap /mnt \
          base \
          binutils \
+         diffutils \
          fakeroot \
          git \
          make \
@@ -114,6 +172,7 @@ pacstrap /mnt \
 # configure fstab
 genfstab -t PARTLABEL /mnt >> /mnt/etc/fstab
 sed -i 's,/mnt,,g' /mnt/etc/fstab # bind mount needs extra care
+# TODO: should I remove ^zroot/.* from fstab when using "zfs"?
 if [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     sed -i 's;subvol=/\t;subvol=/,noauto\t;' /mnt/etc/fstab # don't automatically mount /btrfs
     sed -i 's;subvolid=[[:digit:]]\+,;;' /mnt/etc/fstab # remove subvolid= see also https://bugs.archlinux.org/task/65003 for a related bug
@@ -134,6 +193,11 @@ mv /etc/resolv.conf /mnt/etc/resolv.conf
 umount -R /mnt
 if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
     lvchange --activate n vg0
+    cryptsetup close cryptroot
+elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
+    cryptsetup close cryptroot
+elif [ "$SETUP_SCHEME" = "zfs" ]; then
+    zfs umount -a
+    zpool export zroot
 fi
-cryptsetup close cryptroot
 systemctl reboot
