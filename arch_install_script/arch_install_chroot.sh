@@ -232,6 +232,7 @@ pacman -Syu --noconfirm
 pacman -S --noconfirm --needed \
        pipewire \
        pipewire-alsa \
+       pipewire-jack \
        pipewire-pulse \
        gst-plugin-pipewire
 
@@ -246,12 +247,14 @@ pacman -S --noconfirm --needed \
        gnome-clocks \
        gnome-control-center \
        gnome-desktop \
+       gnome-keyring \
        gnome-screenshot \
        gnome-system-monitor \
        gnome-terminal \
        pavucontrol \
        nautilus \
-       simple-scan
+       simple-scan \
+       xdg-desktop-portal-gnome
 systemctl enable gdm.service # gnome display manager
 
 # lock the root password and expire the user's password
