@@ -1,0 +1,34 @@
+[Unit]
+Description=borg backup app data to the cloud
+OnFailure=notify-desktop@%n.service
+
+[Service]
+Type=oneshot
+Environment=BORG_REPO=nb51lsmg@nb51lsmg.repo.borgbase.com:repo
+Environment=BORG_PASSCOMMAND="cat /home/paulo/.local/share/.borg-passphrase"
+Environment=BORG_RSH="ssh -i /home/paulo/.ssh/id_rsa_borg"
+
+ExecStartPre=ssh odroid 'docker pause $(docker ps -q)'
+ExecStartPre=/usr/bin/rsync -av --delete --rsync-path="sudo rsync" odroid:/opt/apps/ /opt/apps/odroid
+ExecStartPre=ssh odroid 'docker unpause $(docker ps -q)'
+
+ExecStartPre=ssh rpizero 'docker pause $(docker ps -q)'
+ExecStartPre=/usr/bin/rsync -av --delete rpizero:/opt/apps/ /opt/apps/rpizero
+ExecStartPre=ssh rpizero 'docker unpause $(docker ps -q)'
+
+ExecStartPre=ssh nas '/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker pause $(/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker ps -q)'
+ExecStartPre=/usr/bin/rsync -av --delete nas:/share/Container/config/ /opt/apps/nas
+ExecStartPre=ssh nas '/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker unpause $(/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker ps -q)'
+
+ExecStart=/usr/bin/borg create \
+    --stats \
+    ::{now} \
+    /opt/apps
+
+ExecStartPost=/usr/bin/borg prune \
+    --verbose \
+    --list \
+    --keep-daily=7 \
+    --keep-weekly=4 \
+    --keep-within 2d \
+    --stats

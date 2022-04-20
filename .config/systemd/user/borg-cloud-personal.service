@@ -1,22 +1,18 @@
 [Unit]
-Description=borg backup to NAS
+Description=borg backup personal files to the cloud
 OnFailure=notify-desktop@%n.service
 
 [Service]
 Type=oneshot
-Environment=BORG_REPO=nas:/share/backups/paulo
+Environment=BORG_REPO=y33ot5j3@y33ot5j3.repo.borgbase.com:repo
 Environment=BORG_PASSCOMMAND="cat /home/paulo/.local/share/.borg-passphrase"
 Environment=BORG_RSH="ssh -i /home/paulo/.ssh/id_rsa_borg"
 
 ExecStart=/usr/bin/borg create \
     --stats \
     ::{now} \
-    /home/paulo/Sync \
     /mnt/data/my_files \
-    /mnt/data/pictures \
-    /mnt/data/games \
-    /mnt/data/music \
-    /mnt/data/books
+    /mnt/data/pictures
 
 ExecStartPost=/usr/bin/borg prune \
     --verbose \
