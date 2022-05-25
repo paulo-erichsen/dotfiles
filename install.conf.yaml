@@ -23,11 +23,12 @@
     ~/.bashrc:
       path: .bashrc
       force: true
-    ~/.cgdb: .cgdb
     ~/.clang-format: .clang-format
     ~/.clang-tidy: .clang-tidy
+    ~/.config/cgdb/cgdbrc: .config/cgdb/cgdbrc
     ~/.config/flake8: .config/flake8
     ~/.config/fontconfig/conf.d/10-powerline-symbols.conf: .config/fontconfig/conf.d/10-powerline-symbols.conf
+    ~/.config/gdb/gdbinit: .config/gdb/gdbinit
     ~/.config/git/config: .config/git/config
     ~/.config/git/ignore: .config/git/ignore
     ~/.config/mypy/config: .config/mypy/config
@@ -48,7 +49,6 @@
     ~/.exports: .exports
     # ~/.extra: .extra
     ~/.functions: .functions
-    ~/.gdbinit: .gdbinit
     ~/.local/share/fonts/PowerlineSymbols.otf: .local/share/fonts/PowerlineSymbols.otf
     ~/.path: .path
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
