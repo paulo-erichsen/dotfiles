@@ -1,6 +1,0 @@
-discord_arch_electron
-openvpn-update-systemd-resolved
-pandoc-bin
-paru-bin
-powerline-fonts-git
-shellcheck-bin

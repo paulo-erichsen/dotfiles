@@ -49,10 +49,8 @@
     # ~/.extra: .extra
     ~/.functions: .functions
     ~/.gdbinit: .gdbinit
-    ~/.gemrc: .gemrc
     ~/.local/share/fonts/PowerlineSymbols.otf: .local/share/fonts/PowerlineSymbols.otf
     ~/.path: .path
-    ~/.pkglists: .pkglists
     ~/.ssh/config.d/macOS.conf: .ssh/config.d/macOS.conf
     ~/.ssh/config.d/work_environment.conf: .ssh/config.d/work_environment.conf
     ~/.ssh/config: .ssh/config

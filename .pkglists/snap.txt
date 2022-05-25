@@ -1,2 +1,0 @@
-Name                  Version    Rev   Tracking  Publisher   Notes
-slack                 3.3.3      9     stable    slack✓      classic

@@ -1,5 +1,0 @@
-# powerline and it's git extension
-powerline-status
-powerline-gitstatus
-black
-pytest
