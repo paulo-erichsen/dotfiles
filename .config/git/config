@@ -8,6 +8,7 @@
 	ci = commit
 	d = diff -w
 	ds = diff --staged # same as diff --cached
+	dw = diff --color-words=.
 	f = fetch --all --prune
 	st = status
 	unstage = reset HEAD --

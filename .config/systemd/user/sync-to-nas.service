@@ -4,6 +4,6 @@ OnFailure=notify-desktop@%n.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/rsync -av --delete /mnt/data/my_files/ nas:/share/my_files/
+ExecStart=/usr/bin/rsync -av --delete /mnt/data/my_files/ nas:/share/data/my_files/
 ExecStart=/usr/bin/rsync -av --delete /mnt/data/pictures/ nas:/share/data/media/pictures/
 ExecStart=/usr/bin/rsync -av --delete /mnt/data/music/ nas:/share/data/media/music/

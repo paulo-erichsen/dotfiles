@@ -93,6 +93,7 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     btrfs subvolume create /mnt/@
     btrfs subvolume create /mnt/@home
     btrfs subvolume create /mnt/@log
+    btrfs subvolume create /mnt/@opt
     btrfs subvolume create /mnt/@pkg
     btrfs subvolume create /mnt/@snapshots
 
@@ -102,6 +103,7 @@ elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
     mount -o $mount_opts,subvol=@          /dev/mapper/cryptroot /mnt
     mount -o $mount_opts,subvol=@home      /dev/mapper/cryptroot /mnt/home
     mount -o $mount_opts,subvol=@log       /dev/mapper/cryptroot /mnt/var/log
+    mount -o $mount_opts,subvol=@opt       /dev/mapper/cryptroot /mnt/opt
     mount -o $mount_opts,subvol=@pkg       /dev/mapper/cryptroot /mnt/var/cache/pacman/pkg
     mount -o $mount_opts,subvol=@snapshots /dev/mapper/cryptroot /mnt/.snapshots
     mount -o $mount_opts,subvol=/          /dev/mapper/cryptroot /mnt/btrfs
