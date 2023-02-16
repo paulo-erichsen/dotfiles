@@ -119,6 +119,9 @@ else
               zfs-import.target
 fi
 
+# install linux-firmware and mesa
+pacman -S --noconfirm --needed linux-firmware mesa
+
 ### boot loader: systemd-boot
 bootctl --esp-path /efi install
 # install microcode
@@ -139,9 +142,9 @@ EOF
 
 SETUP_DISK_UUID=$(blkid -s UUID -o value /dev/disk/by-partlabel/root)
 if [ "$SETUP_SCHEME" = "lvm-on-luks" ]; then
-    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
+    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.options=discard rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/vg0/root rw"
 elif [ "$SETUP_SCHEME" = "btrfs-on-luks" ]; then
-    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
+    KERNEL_PARAMETERS="zswap.enabled=0 rd.luks.options=discard rd.luks.name=$SETUP_DISK_UUID=cryptroot root=/dev/mapper/cryptroot rootflags=subvol=@ rw"
 elif [ "$SETUP_SCHEME" = "zfs" ]; then
     KERNEL_PARAMETERS="zswap.enabled=0 root=zfs:zroot/ROOT/default rw"
 fi
@@ -171,9 +174,34 @@ Name=en*
 [Network]
 DHCP=ipv4
 EOF
+
+cat > /etc/systemd/network/25-wireless.network <<EOF
+[Match]
+Name=wl*
+
+[Network]
+DHCP=ipv4
+IgnoreCarrierLoss=3s
+EOF
+
+# wifi
+if ip -oneline link show | grep -q wlan; then
+    pacman -S --noconfirm iwd
+    systemctl enable iwd.service
+fi
+
 systemctl enable \
           systemd-resolved.service \
           systemd-networkd.service
+
+# gpu
+# TODO: check nvidia gpu present and if so, install the nvidia package
+
+# enable SSD TRIM
+if [ "$SETUP_SCHEME" != "btrfs-on-luks" ]; then
+    # not enabling this on btrfs since it will use discard=async automatically on linux 6.2 and newer
+    systemctl enable fstrim.timer
+fi
 
 # systemd-oomd
 systemctl enable systemd-oomd.service
@@ -221,11 +249,6 @@ reflector \
 
 # upgrade the system
 pacman -Syu --noconfirm
-
-# TODO: detect gpu amd/nvidia/intel and install appropriate drivers
-# amd: xf86-video-amdgpu
-# nvidia: nvidia
-# intel: xf86-video-intel
 
 # sound: pipewire-pulse
 # NOTE: install pipewire first such that when we install the desktop environment below, it won't try to install pulseaudio
