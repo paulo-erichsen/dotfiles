@@ -20,7 +20,7 @@
 set -e
 set -x
 
-SETUP_DEVICE=/dev/nvme0n1 # /dev/sda
+SETUP_DEVICE=/dev/nvme0n1 # /dev/sda or /dev/vda
 SETUP_SCHEME=btrfs-on-luks # allowed values: lvm-on-luks, btrfs-on-luks, zfs
 SETUP_ENCRYPTION_PASSWORD="SecretPassword!"
 
@@ -166,6 +166,7 @@ pacstrap /mnt \
          diffutils \
          fakeroot \
          git \
+         iptables-nft \
          make \
          patch \
          sudo \
