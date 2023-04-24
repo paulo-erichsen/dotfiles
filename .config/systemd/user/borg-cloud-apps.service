@@ -8,9 +8,6 @@ Environment=BORG_REPO=nb51lsmg@nb51lsmg.repo.borgbase.com:repo
 Environment=BORG_PASSCOMMAND="cat /home/paulo/.local/share/.borg-passphrase"
 Environment=BORG_RSH="ssh -i /home/paulo/.ssh/id_rsa_borg"
 
-# csgo
-ExecStartPre=/usr/bin/rsync -av --delete '/mnt/games/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/replays/' /opt/apps/csgo/replays/
-
 # odroid
 ExecStartPre=-ssh odroid 'docker pause adguardhome'
 ExecStartPre=/usr/bin/rsync -av --delete odroid:/opt/apps/ /opt/apps/odroid
@@ -21,14 +18,9 @@ ExecStartPre=-ssh rpizero 'docker pause adguardhome'
 ExecStartPre=/usr/bin/rsync -av --delete rpizero:/opt/apps/ /opt/apps/rpizero
 ExecStartPre=-ssh rpizero 'docker unpause adguardhome'
 
-# nas
-ExecStartPre=-ssh nas '/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker pause $(/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker ps -q)'
-ExecStartPre=/usr/bin/rsync -av --delete nas:/share/data/apps/ /opt/apps/nas
-ExecStartPre=-ssh nas '/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker unpause $(/share/CE_CACHEDEV1_DATA/.qpkg/container-station/bin/docker ps -q)'
-
 # optiplex
 ExecStartPre=-ssh optiplex 'docker pause $(docker ps -q)'
-ExecStartPre=/usr/bin/rsync -av --delete --rsync-path="sudo rsync" optiplex:/opt/apps/ /opt/apps/optiplex
+ExecStartPre=/usr/bin/rsync -av --delete --rsync-path="sudo rsync" --exclude=csgo optiplex:/opt/apps/ /opt/apps/optiplex
 ExecStartPre=-ssh optiplex 'docker unpause $(docker ps -q)'
 
 ExecStart=/usr/bin/borg create \
