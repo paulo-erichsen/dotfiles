@@ -12,6 +12,9 @@
     if [ -d "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/" ]; then
         cp ./steam/csgo/autoexec.cfg ./steam/csgo/practice.cfg "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/Counter-Strike Global Offensive/csgo/cfg/"
     fi
+    if [ -d "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/dota 2 beta/game/dota/cfg/" ]; then
+        cp ./steam/dota/autoexec.cfg "$HOME/.var/app/com.valvesoftware.Steam/.local/share/Steam/steamapps/common/dota 2 beta/game/dota/cfg/"
+    fi
 
 - link:
     ~/.aliases: .aliases
