@@ -45,7 +45,7 @@ alias backgrounds='sudo cp -r ~/Dropbox/images/backgrounds/ /usr/share/ && sudo 
 if [ ! -x /usr/bin/open ]; then
    alias open='xdg-open'
 fi
-alias ssh-keygen-mine='ssh-keygen -t rsa -b 16384'
+alias ssh-keygen-mine='ssh-keygen -t ed25519'
 alias sort-ipv4='sort --version-sort'
 alias stocks='go run $HOME/go/src/github.com/mop-tracker/mop/cmd/mop/main.go'
 alias unpixel='for f in PXL_*; do [ -f "$f" ] && mv "$f" "$(echo "$f" | sed "s/^PXL_//")"; done'
